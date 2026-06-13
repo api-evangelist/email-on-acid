@@ -1,0 +1,12 @@
+{
+  "id": "abc123xyz789",
+  "reference_id": "123ABC",
+  "customer_id": "1",
+  "spam": {
+    "key": "spam_key_unique_456",
+    "address_list": [
+      "seed1@spam-test.emailonacid.com",
+      "seed2@spam-test.emailonacid.com"
+    ]
+  }
+}

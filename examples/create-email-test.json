@@ -1,0 +1,16 @@
+{
+  "subject": "My Marketing Email Subject",
+  "html": "<html><body><h1>Hello World</h1><p>This is a test email.</p></body></html>",
+  "transfer_encoding": "8bit",
+  "charset": "utf-8",
+  "clients": [
+    "outlook16",
+    "gmail_chr26_win",
+    "iphone6p_9"
+  ],
+  "image_blocking": false,
+  "spam": {
+    "test_method": "seed",
+    "from_address": "marketing@example.com"
+  }
+}

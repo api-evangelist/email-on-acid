@@ -39,7 +39,7 @@ apis:
       - type: Documentation
         url: https://api.emailonacid.com/docs/latest
       - type: OpenAPI
-        url: https://api.emailonacid.com/docs/latest
+        url: https://raw.githubusercontent.com/api-evangelist/email-on-acid/refs/heads/main/openapi/email-on-acid-openapi.yml
     contact:
       - FN: Email on Acid Support
         url: https://www.emailonacid.com/contact/

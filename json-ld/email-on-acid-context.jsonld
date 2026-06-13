@@ -1,0 +1,199 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "eoa": "https://api.emailonacid.com/v5/vocab#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "EmailTest": "eoa:EmailTest",
+    "SpamTest": "eoa:SpamTest",
+    "EmailClient": "eoa:EmailClient",
+    "SeedList": "eoa:SeedList",
+    "Screenshot": "eoa:Screenshot",
+    "SpamResult": "eoa:SpamResult",
+    "ReprocessResult": "eoa:ReprocessResult",
+
+    "id": "@id",
+    "type": "@type",
+
+    "subject": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "date": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:integer"
+    },
+    "html": {
+      "@id": "schema:text",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "schema:url",
+      "@type": "@id"
+    },
+    "client": {
+      "@id": "eoa:client",
+      "@type": "xsd:string"
+    },
+    "os": {
+      "@id": "eoa:operatingSystem",
+      "@type": "xsd:string"
+    },
+    "category": {
+      "@id": "eoa:category",
+      "@type": "xsd:string"
+    },
+    "browser": {
+      "@id": "eoa:browser",
+      "@type": "xsd:string"
+    },
+    "rotate": {
+      "@id": "eoa:rotate",
+      "@type": "xsd:boolean"
+    },
+    "image_blocking": {
+      "@id": "eoa:imageBlocking",
+      "@type": "xsd:boolean"
+    },
+    "free": {
+      "@id": "eoa:free",
+      "@type": "xsd:boolean"
+    },
+    "default": {
+      "@id": "eoa:default",
+      "@type": "xsd:boolean"
+    },
+    "clients": {
+      "@id": "eoa:clients",
+      "@container": "@list"
+    },
+    "completed": {
+      "@id": "eoa:completed",
+      "@container": "@list"
+    },
+    "processing": {
+      "@id": "eoa:processing",
+      "@container": "@list"
+    },
+    "bounced": {
+      "@id": "eoa:bounced",
+      "@container": "@list"
+    },
+    "status": {
+      "@id": "eoa:status",
+      "@type": "xsd:string"
+    },
+    "status_details": {
+      "@id": "eoa:statusDetails"
+    },
+    "submitted": {
+      "@id": "eoa:submitted",
+      "@type": "xsd:integer"
+    },
+    "attempts": {
+      "@id": "eoa:attempts",
+      "@type": "xsd:integer"
+    },
+    "screenshots": {
+      "@id": "eoa:screenshots"
+    },
+    "thumbnail": {
+      "@id": "eoa:thumbnail",
+      "@type": "@id"
+    },
+    "full_thumbnail": {
+      "@id": "eoa:fullThumbnail",
+      "@type": "@id"
+    },
+    "display_name": {
+      "@id": "schema:displayName",
+      "@type": "xsd:string"
+    },
+    "spam": {
+      "@id": "eoa:spam"
+    },
+    "test_method": {
+      "@id": "eoa:testMethod",
+      "@type": "xsd:string"
+    },
+    "from_address": {
+      "@id": "schema:email",
+      "@type": "xsd:string"
+    },
+    "key": {
+      "@id": "eoa:key",
+      "@type": "xsd:string"
+    },
+    "address_list": {
+      "@id": "eoa:addressList",
+      "@container": "@list"
+    },
+    "sandbox": {
+      "@id": "eoa:sandbox",
+      "@type": "xsd:boolean"
+    },
+    "free_test": {
+      "@id": "eoa:freeTest",
+      "@type": "xsd:boolean"
+    },
+    "transfer_encoding": {
+      "@id": "eoa:transferEncoding",
+      "@type": "xsd:string"
+    },
+    "charset": {
+      "@id": "eoa:charset",
+      "@type": "xsd:string"
+    },
+    "reference_id": {
+      "@id": "eoa:referenceId",
+      "@type": "xsd:string"
+    },
+    "customer_id": {
+      "@id": "eoa:customerId",
+      "@type": "xsd:string"
+    },
+    "headers": {
+      "@id": "eoa:headers"
+    },
+    "success": {
+      "@id": "eoa:success",
+      "@type": "xsd:boolean"
+    },
+    "remaining_reprocesses": {
+      "@id": "eoa:remainingReprocesses",
+      "@type": "xsd:integer"
+    },
+    "regional": {
+      "@id": "eoa:regional",
+      "@type": "xsd:boolean"
+    },
+    "details": {
+      "@id": "eoa:details",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    },
+    "warnings": {
+      "@id": "eoa:warnings",
+      "@container": "@list"
+    },
+    "content": {
+      "@id": "eoa:content",
+      "@type": "xsd:string"
+    },
+    "error": {
+      "@id": "eoa:error"
+    },
+    "name": {
+      "@id": "schema:name",
+      "@type": "xsd:string"
+    },
+    "message": {
+      "@id": "schema:description",
+      "@type": "xsd:string"
+    }
+  }
+}

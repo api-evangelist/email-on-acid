@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.emailonacid.com/v5/schemas/email-test-request",
+  "title": "CreateEmailTestRequest",
+  "description": "Request body schema for creating an email rendering test across email clients",
+  "type": "object",
+  "required": ["subject"],
+  "properties": {
+    "subject": {
+      "type": "string",
+      "description": "Email subject line"
+    },
+    "html": {
+      "type": "string",
+      "description": "HTML email content. Required if url is not provided."
+    },
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "URL to email content. Required if html is not provided."
+    },
+    "transfer_encoding": {
+      "type": "string",
+      "enum": ["base64", "quoted-printable", "7bit", "8bit"],
+      "default": "8bit",
+      "description": "Content transfer encoding"
+    },
+    "charset": {
+      "type": "string",
+      "default": "utf-8",
+      "description": "Character encoding of the email content"
+    },
+    "free_test": {
+      "type": "boolean",
+      "default": false,
+      "description": "Use limited free test features"
+    },
+    "sandbox": {
+      "type": "boolean",
+      "default": false,
+      "description": "Sandbox mode — no content created, used for testing API integration"
+    },
+    "reference_id": {
+      "type": "string",
+      "description": "Enterprise tracking reference identifier"
+    },
+    "customer_id": {
+      "type": "string",
+      "description": "Enterprise customer identifier, required for enterprise packages"
+    },
+    "headers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Custom X-Header key-value pairs (enterprise only)"
+    },
+    "clients": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Email client IDs to test against. Defaults to account default list if not specified."
+    },
+    "image_blocking": {
+      "type": "boolean",
+      "default": false,
+      "description": "Block images in supported clients during rendering"
+    },
+    "spam": {
+      "type": "object",
+      "description": "Spam test configuration to run alongside email rendering",
+      "properties": {
+        "test_method": {
+          "type": "string",
+          "enum": ["eoa", "smtp", "seed"],
+          "default": "eoa",
+          "description": "Method for spam testing"
+        },
+        "from_address": {
+          "type": "string",
+          "format": "email",
+          "description": "Sender email address for spam testing"
+        },
+        "key": {
+          "type": "string",
+          "description": "Pre-reserved seedlist key (optional for seed method)"
+        },
+        "smtp_info": {
+          "type": "object",
+          "description": "SMTP configuration, required when test_method is smtp",
+          "required": ["host"],
+          "properties": {
+            "host": {
+              "type": "string",
+              "description": "SMTP server hostname"
+            },
+            "port": {
+              "type": "integer",
+              "default": 25,
+              "description": "SMTP port number"
+            },
+            "secure": {
+              "type": "string",
+              "enum": ["ssl", "tls", ""],
+              "default": "",
+              "description": "Connection security type"
+            },
+            "username": {
+              "type": "string",
+              "description": "SMTP authentication username"
+            },
+            "password": {
+              "type": "string",
+              "description": "SMTP authentication password"
+            }
+          }
+        }
+      }
+    }
+  },
+  "oneOf": [
+    { "required": ["html"] },
+    { "required": ["url"] }
+  ]
+}

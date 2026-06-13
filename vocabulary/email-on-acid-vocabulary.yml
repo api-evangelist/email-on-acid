@@ -1,0 +1,202 @@
+name: Email on Acid Vocabulary
+description: Domain vocabulary for the Email on Acid (Mailgun Inspect) email testing API
+version: '1.0'
+terms:
+
+  - term: email_test
+    label: Email Test
+    description: >
+      A test submission of an HTML email to render across one or more email
+      clients and devices, producing screenshot comparisons for QA purposes.
+    type: resource
+    properties:
+      - id
+      - subject
+      - date
+      - completed
+      - processing
+      - bounced
+
+  - term: spam_test
+    label: Spam Test
+    description: >
+      A spam filter analysis submission that evaluates email content against
+      multiple spam filter services and returns pass/fail verdicts per filter.
+    type: resource
+    properties:
+      - id
+      - subject
+      - date
+      - test_method
+      - from_address
+
+  - term: email_client
+    label: Email Client
+    description: >
+      A specific combination of email software, operating system, browser, and
+      device used as a rendering target for email testing. Identified by a
+      unique client ID code.
+    type: resource
+    properties:
+      - id
+      - client
+      - os
+      - category
+      - browser
+      - rotate
+      - image_blocking
+      - free
+      - default
+
+  - term: client_id
+    label: Client ID
+    description: >
+      Unique identifier string for a specific email client configuration used
+      in test creation and result retrieval (e.g. "outlook16", "gmail_chr26_win").
+    type: property
+    dataType: string
+
+  - term: category
+    label: Client Category
+    description: >
+      Classification of an email client into one of three types: Application
+      (desktop software), Mobile (smartphone/tablet), or Web (browser-based).
+    type: property
+    dataType: string
+    allowedValues:
+      - Application
+      - Mobile
+      - Web
+
+  - term: test_status
+    label: Test Status
+    description: >
+      The current processing state of an email client rendering within a test.
+    type: property
+    dataType: string
+    allowedValues:
+      - Complete
+      - Processing
+      - Bounced
+      - Pending
+
+  - term: spam_verdict
+    label: Spam Verdict
+    description: >
+      The outcome of a spam filter check for a given spam client.
+      1 = marked as spam, 0 = neutral/no decision, -1 = not spam, null = pending.
+    type: property
+    dataType: integer
+    allowedValues:
+      - 1
+      - 0
+      - -1
+
+  - term: test_method
+    label: Spam Test Method
+    description: >
+      The approach used to run spam filter analysis. eoa = Email on Acid
+      internal method, smtp = direct SMTP delivery, seed = seed list delivery.
+    type: property
+    dataType: string
+    allowedValues:
+      - eoa
+      - smtp
+      - seed
+
+  - term: transfer_encoding
+    label: Transfer Encoding
+    description: >
+      The content transfer encoding applied to the email subject and body
+      before submission to the API.
+    type: property
+    dataType: string
+    allowedValues:
+      - base64
+      - quoted-printable
+      - 7bit
+      - 8bit
+
+  - term: seed_list
+    label: Seed List
+    description: >
+      A set of email addresses used in seed-method spam testing. The email
+      must be sent to these addresses before spam results can be collected.
+    type: resource
+    properties:
+      - key
+      - address_list
+
+  - term: sandbox
+    label: Sandbox Mode
+    description: >
+      A testing mode that validates API requests and returns test IDs without
+      creating actual content or consuming test credits.
+    type: property
+    dataType: boolean
+
+  - term: image_blocking
+    label: Image Blocking
+    description: >
+      Feature that renders email screenshots with images blocked, simulating
+      how email looks to recipients with image loading disabled.
+    type: property
+    dataType: boolean
+
+  - term: reference_id
+    label: Reference ID
+    description: >
+      An enterprise-level custom identifier attached to tests for tracking
+      purposes within external systems.
+    type: property
+    dataType: string
+
+  - term: customer_id
+    label: Customer ID
+    description: >
+      An enterprise-level identifier for a specific customer in reseller or
+      enterprise multi-tenant deployments.
+    type: property
+    dataType: string
+
+  - term: reprocess
+    label: Reprocess
+    description: >
+      The act of re-rendering email screenshots for specific clients within
+      an existing test. Each client has a limited number of reprocess attempts.
+    type: action
+
+  - term: screenshot
+    label: Screenshot
+    description: >
+      A rendered image of how an email appears in a specific email client,
+      captured at full resolution and available via authenticated URL.
+    type: resource
+    properties:
+      - default
+      - no_images
+
+  - term: b2c
+    label: Business to Consumer
+    description: Consumer-oriented spam filter used by individual email providers.
+    type: value
+
+  - term: b2b
+    label: Business to Business
+    description: Enterprise-oriented spam filter used by corporate email systems.
+    type: value
+
+  - term: accessibility
+    label: Accessibility Check
+    description: >
+      WCAG 2.2 compliance validation included in email testing to ensure
+      email content is accessible to users with disabilities.
+    type: feature
+
+  - term: retention_period
+    label: Test Retention Period
+    description: >
+      Duration that test content, results, and screenshots are stored.
+      Email on Acid retains test data for 90 days from test creation.
+    type: concept
+    value: 90 days

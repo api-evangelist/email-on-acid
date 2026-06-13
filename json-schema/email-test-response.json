@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://api.emailonacid.com/v5/schemas/email-test-response",
+  "title": "EmailTestResult",
+  "description": "Response schema for email client rendering results",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "Unique client identifier"
+      },
+      "display_name": {
+        "type": "string",
+        "description": "Human-readable client display name"
+      },
+      "client": {
+        "type": "string",
+        "description": "Email client name"
+      },
+      "os": {
+        "type": "string",
+        "description": "Operating system"
+      },
+      "category": {
+        "type": "string",
+        "enum": ["Application", "Mobile", "Web"],
+        "description": "Client category classification"
+      },
+      "screenshots": {
+        "type": "object",
+        "properties": {
+          "default": {
+            "type": "string",
+            "format": "uri",
+            "description": "Default rendering screenshot URL"
+          },
+          "no_images": {
+            "type": "string",
+            "format": "uri",
+            "description": "Screenshot with image blocking applied"
+          }
+        }
+      },
+      "thumbnail": {
+        "type": "string",
+        "format": "uri",
+        "description": "Thumbnail screenshot URL"
+      },
+      "full_thumbnail": {
+        "type": "string",
+        "format": "uri",
+        "description": "Full-size thumbnail screenshot URL"
+      },
+      "status": {
+        "type": "string",
+        "enum": ["Complete", "Processing", "Bounced", "Pending"],
+        "description": "Current rendering status for this client"
+      },
+      "status_details": {
+        "type": "object",
+        "properties": {
+          "submitted": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp when rendering was submitted"
+          },
+          "completed": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Unix timestamp when rendering completed"
+          },
+          "attempts": {
+            "type": "integer",
+            "description": "Number of processing attempts made"
+          }
+        }
+      }
+    }
+  }
+}

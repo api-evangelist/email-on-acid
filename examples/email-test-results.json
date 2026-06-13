@@ -1,0 +1,59 @@
+{
+  "outlook16": {
+    "id": "outlook16",
+    "display_name": "Outlook 2016",
+    "client": "Outlook 2016",
+    "os": "Windows",
+    "category": "Application",
+    "screenshots": {
+      "default": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/outlook16/default",
+      "no_images": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/outlook16/no_images"
+    },
+    "thumbnail": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/outlook16/thumbnail",
+    "full_thumbnail": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/outlook16/full_thumbnail",
+    "status": "Complete",
+    "status_details": {
+      "submitted": 1718352000,
+      "completed": 1718352008,
+      "attempts": 1
+    }
+  },
+  "gmail_chr26_win": {
+    "id": "gmail_chr26_win",
+    "display_name": "Gmail (Chrome 26, Windows)",
+    "client": "Gmail",
+    "os": "Windows",
+    "category": "Web",
+    "browser": "Chrome",
+    "screenshots": {
+      "default": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/gmail_chr26_win/default"
+    },
+    "thumbnail": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/gmail_chr26_win/thumbnail",
+    "full_thumbnail": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/gmail_chr26_win/full_thumbnail",
+    "status": "Complete",
+    "status_details": {
+      "submitted": 1718352000,
+      "completed": 1718352012,
+      "attempts": 1
+    }
+  },
+  "iphone6p_9": {
+    "id": "iphone6p_9",
+    "display_name": "iPhone 6 Plus (iOS 9)",
+    "client": "Apple Mail",
+    "os": "iOS",
+    "category": "Mobile",
+    "rotate": true,
+    "screenshots": {
+      "default": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/iphone6p_9/default"
+    },
+    "thumbnail": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/iphone6p_9/thumbnail",
+    "full_thumbnail": "https://screenshots.emailonacid.com/v5/email/tests/abc123xyz789/results/iphone6p_9/full_thumbnail",
+    "status": "Processing",
+    "status_details": {
+      "submitted": 1718352000,
+      "completed": null,
+      "attempts": 1
+    }
+  }
+}

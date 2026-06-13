@@ -1,0 +1,1212 @@
+openapi: 3.0.3
+info:
+  title: Email on Acid API
+  description: >
+    REST API for automating email testing across 100+ email clients and devices,
+    including email rendering previews, spam filter testing, seed list management,
+    and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox
+    mode for development and test result storage for 90 days.
+  version: '5.0'
+  contact:
+    name: Email on Acid Support
+    url: https://www.emailonacid.com/contact/
+  license:
+    name: Proprietary
+    url: https://www.emailonacid.com/terms/
+
+servers:
+  - url: https://api.emailonacid.com/v5
+    description: Email on Acid API v5
+
+security:
+  - basicAuth: []
+
+tags:
+  - name: Authentication
+    description: Verify API credentials
+  - name: Email Clients
+    description: Manage email client lists and defaults for testing
+  - name: Email Testing
+    description: Create and manage email rendering tests
+  - name: Spam Testing
+    description: Standalone spam filter analysis and seed list management
+
+paths:
+
+  /auth:
+    get:
+      summary: Test authentication
+      operationId: testAuth
+      tags:
+        - Authentication
+      description: >
+        Verify that API credentials are valid. Returns success if authentication
+        succeeds. Use username and password "sandbox" for sandbox access.
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccess'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+
+  /email/clients:
+    get:
+      summary: Get available email clients
+      operationId: getEmailClients
+      tags:
+        - Email Clients
+      description: >
+        Retrieves a list of all available email clients for testing, filtered by
+        the account's plan eligibility.
+      responses:
+        '200':
+          description: Map of available email clients
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailClientsMap'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+
+  /email/clients/default:
+    get:
+      summary: Get default email clients
+      operationId: getDefaultEmailClients
+      tags:
+        - Email Clients
+      description: Retrieves the list of client IDs configured as defaults for email testing.
+      responses:
+        '200':
+          description: List of default client IDs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientList'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+
+    put:
+      summary: Set default email clients
+      operationId: setDefaultEmailClients
+      tags:
+        - Email Clients
+      description: Updates the configured default clients used when no clients are specified in a test.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientList'
+            example:
+              clients:
+                - outlook16
+                - gmail_chr26_win
+                - iphone6p_9
+      responses:
+        '200':
+          description: Updated default clients with optional warnings for invalid IDs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetDefaultClientsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+
+  /email/tests:
+    get:
+      summary: Get all email tests
+      operationId: getEmailTests
+      tags:
+        - Email Testing
+      description: >
+        Retrieve a list of all email tests. Supports filtering and pagination
+        via query parameters.
+      parameters:
+        - $ref: '#/components/parameters/fromDate'
+        - $ref: '#/components/parameters/toDate'
+        - $ref: '#/components/parameters/subjectFilter'
+        - $ref: '#/components/parameters/resultsPerPage'
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: List of email tests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TestSummary'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+
+    post:
+      summary: Create email test
+      operationId: createEmailTest
+      tags:
+        - Email Testing
+      description: >
+        Submit an email for testing across one or more email clients and devices.
+        Either `html` or `url` must be provided. Tests are retained for 90 days.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmailTestRequest'
+            example:
+              subject: My Email Subject
+              html: '<html><body><p>Hello World</p></body></html>'
+              transfer_encoding: 8bit
+              charset: utf-8
+              clients:
+                - outlook16
+                - gmail_chr26_win
+                - iphone6p_9
+              image_blocking: false
+      responses:
+        '200':
+          description: Email test created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateEmailTestResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '403':
+          $ref: '#/components/responses/PermissionError'
+
+  /email/tests/{testId}:
+    get:
+      summary: Get email test info
+      operationId: getEmailTest
+      tags:
+        - Email Testing
+      description: Retrieve information and current processing status for a specific email test.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: Email test details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailTestInfo'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+    delete:
+      summary: Delete email test
+      operationId: deleteEmailTest
+      tags:
+        - Email Testing
+      description: Permanently delete a specific email test and all associated results.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: Test deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /email/tests/{testId}/results:
+    get:
+      summary: Get all test results
+      operationId: getEmailTestResults
+      tags:
+        - Email Testing
+      description: >
+        Retrieve screenshot rendering results for all clients in an email test.
+        Screenshot URLs support Basic Authentication (permanent, 90-day life)
+        or Presigned URLs (24-hour time-limited).
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: Map of client results keyed by client ID
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailTestResultsMap'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /email/tests/{testId}/results/{clientId}:
+    get:
+      summary: Get single client test result
+      operationId: getEmailTestResultByClient
+      tags:
+        - Email Testing
+      description: Retrieve rendering results for a specific client within an email test.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+        - name: clientId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The client identifier (e.g. outlook16, gmail_chr26_win)
+      responses:
+        '200':
+          description: Client result details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailClientResult'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /email/tests/{testId}/results/reprocess:
+    put:
+      summary: Reprocess screenshots
+      operationId: reprocessScreenshots
+      tags:
+        - Email Testing
+      description: >
+        Request re-rendering of screenshots for specific clients within a test.
+        Each client has a limited number of reprocess attempts.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientList'
+            example:
+              clients:
+                - iphone6p_9
+                - gmail_chr26_win
+                - outlook16
+      responses:
+        '200':
+          description: Reprocess results per client
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReprocessResultsMap'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /email/tests/{testId}/content:
+    get:
+      summary: Get test HTML content
+      operationId: getEmailTestContent
+      tags:
+        - Email Testing
+      description: Retrieve the original HTML content submitted for a specific email test.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: Original HTML content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailContent'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /email/tests/{testId}/content/inlinecss:
+    get:
+      summary: Get HTML with inlined CSS
+      operationId: getEmailTestContentInlineCss
+      tags:
+        - Email Testing
+      description: Retrieve the email HTML content with all external stylesheets inlined.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: HTML with inlined stylesheets
+          content:
+            text/html:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /email/tests/{testId}/content/textonly:
+    get:
+      summary: Get plain text content
+      operationId: getEmailTestContentTextOnly
+      tags:
+        - Email Testing
+      description: Retrieve a plain text approximation of the email HTML content.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: Plain text content
+          content:
+            text/plain:
+              schema:
+                type: string
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /email/tests/{testId}/spam/results:
+    get:
+      summary: Get spam results for email test
+      operationId: getEmailTestSpamResults
+      tags:
+        - Email Testing
+      description: Retrieve spam filter analysis results for an email test that included spam testing.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: List of spam filter results per client
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpamResult'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /email/tests/{testId}/spam/seedlist:
+    get:
+      summary: Get spam seed list for email test
+      operationId: getEmailTestSpamSeedList
+      tags:
+        - Email Testing
+      description: Retrieve the seed list email addresses for a seed-method spam test.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: List of seed list email addresses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: email
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /spam/clients:
+    get:
+      summary: Get available spam clients
+      operationId: getSpamClients
+      tags:
+        - Spam Testing
+      description: Retrieve metadata about currently active spam filter clients available for testing.
+      responses:
+        '200':
+          description: List of spam clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpamClient'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+
+  /spam/tests:
+    get:
+      summary: Get all spam tests
+      operationId: getSpamTests
+      tags:
+        - Spam Testing
+      description: >
+        Retrieve a list of all standalone spam tests, with optional filtering and
+        pagination. Tests are stored for 90 days.
+      parameters:
+        - $ref: '#/components/parameters/fromDate'
+        - $ref: '#/components/parameters/toDate'
+        - $ref: '#/components/parameters/subjectFilter'
+        - $ref: '#/components/parameters/resultsPerPage'
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: List of spam tests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TestSummary'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+
+    post:
+      summary: Create spam test
+      operationId: createSpamTest
+      tags:
+        - Spam Testing
+      description: >
+        Create and submit a standalone spam filter test. Either `html` or `url`
+        must be provided. Supports eoa, smtp, and seed test methods.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSpamTestRequest'
+            example:
+              subject: My Email Subject
+              html: '<html><body><p>Hello World</p></body></html>'
+              transfer_encoding: 8bit
+              charset: utf-8
+              test_method: seed
+              from_address: my.test@example.com
+      responses:
+        '200':
+          description: Spam test created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateSpamTestResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '403':
+          $ref: '#/components/responses/PermissionError'
+
+  /spam/tests/{testId}:
+    get:
+      summary: Get spam test results
+      operationId: getSpamTestResults
+      tags:
+        - Spam Testing
+      description: Retrieve spam verdict results for a specific standalone spam test.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: Spam filter results per client
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SpamResult'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+    delete:
+      summary: Delete spam test
+      operationId: deleteSpamTest
+      tags:
+        - Spam Testing
+      description: Permanently delete a specific standalone spam test.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: Spam test deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /spam/tests/{testId}/seedlist:
+    get:
+      summary: Get spam test seed list
+      operationId: getSpamTestSeedList
+      tags:
+        - Spam Testing
+      description: Retrieve the seed list email addresses for a seed-method spam test.
+      parameters:
+        - $ref: '#/components/parameters/testId'
+      responses:
+        '200':
+          description: List of seed list email addresses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  format: email
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+        '404':
+          $ref: '#/components/responses/InvalidTestID'
+
+  /spam/seedlist:
+    get:
+      summary: Reserve seed list
+      operationId: reserveSeedList
+      tags:
+        - Spam Testing
+      description: >
+        Pre-reserve a seed list before creating a spam test. Returns a key and
+        list of seed addresses to send email to prior to test creation.
+      responses:
+        '200':
+          description: Reserved seed list key and addresses
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReserveSeedListResponse'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+
+components:
+
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: >
+        HTTP Basic Authentication using `<api_key>:<account_password>` base64-encoded.
+        Use "sandbox:sandbox" credentials for sandbox testing.
+
+  parameters:
+    testId:
+      name: testId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique identifier for the test
+
+    fromDate:
+      name: from
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Start of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
+
+    toDate:
+      name: to
+      in: query
+      required: false
+      schema:
+        type: string
+      description: End of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
+
+    subjectFilter:
+      name: subject
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Exact subject line match (case-insensitive)
+
+    resultsPerPage:
+      name: results
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+      description: Number of results to return per page
+
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results
+
+  schemas:
+
+    AuthSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Error type identifier
+              enum:
+                - AccessDenied
+                - RateLimited
+                - InvalidJSON
+                - InvalidParameter
+                - InvalidTestID
+                - InvalidClient
+                - PermissionError
+                - TestLimitReached
+            message:
+              type: string
+              description: Human-readable error description
+
+    ClientList:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Array of email client IDs
+          example:
+            - outlook16
+            - gmail_chr26_win
+            - iphone6p_9
+
+    SetDefaultClientsResponse:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Updated list of default client IDs
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Invalid client IDs that were removed
+
+    EmailClient:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique client identifier usable in test creation
+        client:
+          type: string
+          description: Display name of the email client
+        os:
+          type: string
+          description: Operating system name
+        category:
+          type: string
+          enum:
+            - Application
+            - Mobile
+            - Web
+          description: Client classification
+        browser:
+          type: string
+          description: Browser name (if applicable)
+        rotate:
+          type: boolean
+          description: Whether device orientation change is supported
+        image_blocking:
+          type: boolean
+          description: Whether image blocking capability is supported
+        free:
+          type: boolean
+          description: Whether available on free tier tests
+        default:
+          type: boolean
+          description: Whether included in default client processing
+
+    EmailClientsMap:
+      type: object
+      description: Map of client ID to email client details
+      additionalProperties:
+        $ref: '#/components/schemas/EmailClient'
+
+    SpamConfig:
+      type: object
+      description: Spam test configuration embedded in an email test
+      properties:
+        test_method:
+          type: string
+          enum:
+            - eoa
+            - smtp
+            - seed
+          default: eoa
+          description: Spam testing method
+        from_address:
+          type: string
+          format: email
+          description: Sender email address for spam testing
+        key:
+          type: string
+          description: Pre-reserved seedlist key (optional for seed method)
+        smtp_info:
+          $ref: '#/components/schemas/SmtpInfo'
+
+    SmtpInfo:
+      type: object
+      description: SMTP configuration for smtp test method
+      required:
+        - host
+      properties:
+        host:
+          type: string
+          description: SMTP server hostname
+        port:
+          type: integer
+          default: 25
+          description: SMTP port number
+        secure:
+          type: string
+          enum:
+            - ssl
+            - tls
+            - ''
+          default: ''
+          description: Connection security type
+        username:
+          type: string
+          description: SMTP authentication username
+        password:
+          type: string
+          description: SMTP authentication password
+
+    CreateEmailTestRequest:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: string
+          description: Email subject line
+        html:
+          type: string
+          description: HTML email content (required if url not provided)
+        url:
+          type: string
+          format: uri
+          description: URL to email content (required if html not provided)
+        transfer_encoding:
+          type: string
+          enum:
+            - base64
+            - quoted-printable
+            - 7bit
+            - 8bit
+          default: 8bit
+          description: Content transfer encoding
+        charset:
+          type: string
+          default: utf-8
+          description: Character encoding
+        free_test:
+          type: boolean
+          default: false
+          description: Use limited free test features
+        sandbox:
+          type: boolean
+          default: false
+          description: Sandbox mode - no content created
+        reference_id:
+          type: string
+          description: Enterprise tracking reference identifier
+        customer_id:
+          type: string
+          description: Enterprise customer identifier (required for enterprise packages)
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom X-Header pairs (enterprise only)
+        clients:
+          type: array
+          items:
+            type: string
+          description: Email client IDs to test (defaults to account default list)
+        image_blocking:
+          type: boolean
+          default: false
+          description: Block images in supported clients
+        spam:
+          $ref: '#/components/schemas/SpamConfig'
+
+    CreateEmailTestResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique test identifier
+        reference_id:
+          type: string
+          description: Enterprise reference identifier
+        customer_id:
+          type: string
+          description: Enterprise customer identifier
+        spam:
+          type: object
+          properties:
+            key:
+              type: string
+              description: Unique spam test identifier
+            address_list:
+              type: array
+              items:
+                type: string
+                format: email
+              description: Seed list addresses to send email to
+
+    TestSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique test identifier
+        date:
+          type: integer
+          format: int64
+          description: Unix timestamp of test creation
+        type:
+          type: string
+          enum:
+            - email-test
+            - spam-test
+          description: Test type classification
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom X-headers associated with the test
+
+    EmailTestInfo:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Email subject line
+        date:
+          type: integer
+          format: int64
+          description: Unix timestamp of test creation
+        completed:
+          type: array
+          items:
+            type: string
+          description: Client IDs with completed rendering
+        processing:
+          type: array
+          items:
+            type: string
+          description: Client IDs currently being processed
+        bounced:
+          type: array
+          items:
+            type: string
+          description: Client IDs that encountered errors
+
+    ScreenshotUrls:
+      type: object
+      properties:
+        default:
+          type: string
+          format: uri
+          description: Default screenshot URL
+        no_images:
+          type: string
+          format: uri
+          description: Screenshot with image blocking applied
+
+    StatusDetails:
+      type: object
+      properties:
+        submitted:
+          type: integer
+          format: int64
+          description: Unix timestamp when test was submitted
+        completed:
+          type: integer
+          format: int64
+          description: Unix timestamp when test completed
+        attempts:
+          type: integer
+          description: Number of processing attempts
+
+    EmailClientResult:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Client identifier
+        display_name:
+          type: string
+          description: Human-readable client display name
+        client:
+          type: string
+          description: Email client name
+        os:
+          type: string
+          description: Operating system
+        category:
+          type: string
+          enum:
+            - Application
+            - Mobile
+            - Web
+        screenshots:
+          $ref: '#/components/schemas/ScreenshotUrls'
+        thumbnail:
+          type: string
+          format: uri
+          description: Thumbnail screenshot URL
+        full_thumbnail:
+          type: string
+          format: uri
+          description: Full-size thumbnail screenshot URL
+        status:
+          type: string
+          enum:
+            - Complete
+            - Processing
+            - Bounced
+            - Pending
+          description: Current rendering status
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
+
+    EmailTestResultsMap:
+      type: object
+      description: Map of client ID to rendering result
+      additionalProperties:
+        $ref: '#/components/schemas/EmailClientResult'
+
+    ReprocessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether reprocess was initiated successfully
+        remaining_reprocesses:
+          type: integer
+          description: Remaining reprocess attempts for this client
+        regional:
+          type: boolean
+          description: Whether regional processing was used
+
+    ReprocessResultsMap:
+      type: object
+      description: Map of client ID to reprocess result
+      additionalProperties:
+        $ref: '#/components/schemas/ReprocessResult'
+
+    EmailContent:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Original HTML content of the email test
+
+    SpamResult:
+      type: object
+      properties:
+        client:
+          type: string
+          description: Spam filter client name
+        type:
+          type: string
+          enum:
+            - b2c
+            - b2b
+          description: Spam client type (business-to-consumer or business-to-business)
+        spam:
+          type: integer
+          nullable: true
+          description: >
+            Spam verdict: 1 = marked as spam, 0 = neutral/no decision,
+            -1 = not spam, null/empty = pending
+        details:
+          type: string
+          description: Additional spam filter analysis details
+
+    SpamClient:
+      type: object
+      properties:
+        client:
+          type: string
+          description: Spam filter client name
+        type:
+          type: string
+          enum:
+            - b2c
+            - b2b
+          description: Spam client type
+        description:
+          type: string
+          description: Description of the spam filter client
+
+    CreateSpamTestRequest:
+      type: object
+      required:
+        - subject
+      properties:
+        subject:
+          type: string
+          description: Email subject line (encoded per transfer_encoding)
+        html:
+          type: string
+          description: HTML email content (required if url not provided)
+        url:
+          type: string
+          format: uri
+          description: URL to email content (required if html not provided)
+        transfer_encoding:
+          type: string
+          enum:
+            - base64
+            - quoted-printable
+            - 7bit
+            - 8bit
+          default: 8bit
+          description: Content transfer encoding
+        charset:
+          type: string
+          default: utf-8
+          description: Character encoding
+        sandbox:
+          type: boolean
+          default: false
+          description: Test mode without content creation
+        reference_id:
+          type: string
+          description: Enterprise tracking reference identifier
+        customer_id:
+          type: string
+          description: Required for reseller packages
+        test_method:
+          type: string
+          enum:
+            - eoa
+            - smtp
+            - seed
+          default: eoa
+          description: Spam testing method
+        from_address:
+          type: string
+          format: email
+          description: Sender email address
+        key:
+          type: string
+          description: Pre-generated seedlist key
+        smtp_info:
+          $ref: '#/components/schemas/SmtpInfo'
+
+    CreateSpamTestResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique spam test identifier
+        reference_id:
+          type: string
+          description: Enterprise reference identifier
+        customer_id:
+          type: string
+          description: Enterprise customer identifier
+        address_list:
+          type: array
+          items:
+            type: string
+            format: email
+          description: Seed list addresses to send email to
+
+    ReserveSeedListResponse:
+      type: object
+      properties:
+        key:
+          type: string
+          description: Pre-reserved seed list key for use in test creation
+        address_list:
+          type: array
+          items:
+            type: string
+            format: email
+          description: Seed email addresses to send email to before creating the test
+
+  responses:
+    AccessDenied:
+      description: Authentication failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: AccessDenied
+              message: Invalid API credentials
+
+    BadRequest:
+      description: Invalid request parameters or JSON
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: InvalidJSON
+              message: Malformed JSON in request body
+
+    PermissionError:
+      description: Account plan does not permit this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: PermissionError
+              message: Your plan does not include this feature
+
+    InvalidTestID:
+      description: Test not found or not accessible
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: InvalidTestID
+              message: Test not found or access denied

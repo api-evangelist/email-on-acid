@@ -1,0 +1,8 @@
+{
+  "subject": "My Email Subject",
+  "html": "<html><body><p>Hello World</p></body></html>",
+  "transfer_encoding": "8bit",
+  "charset": "utf-8",
+  "test_method": "seed",
+  "from_address": "my.test@example.com"
+}
