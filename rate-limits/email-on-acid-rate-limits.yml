@@ -1,0 +1,63 @@
+specificationVersion: '0.1'
+id: email-on-acid-rate-limits
+name: Email on Acid API Rate Limits
+description: Rate limiting information for the Email on Acid REST API (v5). Limits
+  are plan-dependent and tied primarily to monthly email preview allotments. Exceeding
+  plan limits triggers a RateLimited error response. Specific thresholds beyond
+  monthly preview credits are not publicly disclosed; contact support for higher
+  allowances.
+url: https://api.emailonacid.com/docs/latest
+limits:
+  - name: Monthly Email Previews - Basic Plan
+    description: Maximum number of email rendering previews that can be requested
+      via the API per billing month under the Basic plan. Additional previews are
+      charged at the overage rate.
+    scope: account
+    window: monthly
+    limit: 1000
+    unit: previews
+    plan: Basic
+    overageAllowed: true
+    overagePrice: 0.15
+    overageCurrency: USD
+    errorCode: RateLimited
+    errorMessage: You have made more requests to the API than your pricing plan allows.
+  - name: Monthly Email Previews - Premium Plan
+    description: Maximum number of email rendering previews that can be requested
+      via the API per billing month under the Premium plan. Additional previews are
+      charged at the overage rate.
+    scope: account
+    window: monthly
+    limit: 2000
+    unit: previews
+    plan: Premium
+    overageAllowed: true
+    overagePrice: 0.15
+    overageCurrency: USD
+    errorCode: RateLimited
+    errorMessage: You have made more requests to the API than your pricing plan allows.
+  - name: Monthly Email Previews - Contract Plan
+    description: Custom monthly preview allotment negotiated per contract for enterprise
+      customers. Contact sales for specific limits.
+    scope: account
+    window: monthly
+    limit: custom
+    unit: previews
+    plan: Contract
+    overageAllowed: negotiated
+  - name: Test Result Retention
+    description: Email test results are stored on Email on Acid servers for 90 days
+      after processing, after which results are removed. Test metadata is retained
+      permanently.
+    scope: account
+    window: 90 days
+    limit: 90
+    unit: days
+    applies: test result storage
+notes:
+  - Specific per-minute or per-second request rate limits are not publicly disclosed
+    in the API documentation.
+  - Contact Email on Acid support to request higher rate limits beyond plan allotments.
+  - A sandbox mode is available using "sandbox" credentials for development and testing
+    without consuming production preview credits.
+  - The API returns HTTP error with RateLimited code when plan limits are exceeded.

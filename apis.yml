@@ -1,0 +1,71 @@
+name: Email on Acid
+description: Email on Acid (now branded as Mailgun Inspect) is an email testing and
+  pre-deployment quality assurance platform with a REST API for rendering email previews
+  across 100+ email clients and devices, checking accessibility compliance (WCAG 2.2),
+  validating HTML/CSS compatibility, running spam filter analysis, and automating
+  pre-send email testing workflows via HTTP Basic Authentication.
+image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+url: https://raw.githubusercontent.com/api-evangelist/email-on-acid/refs/heads/main/apis.yml
+created: '2026-06-13'
+modified: '2026-06-13'
+specificationVersion: '0.19'
+aid: email-on-acid
+type: Index
+tags:
+  - Email Testing
+  - Email Previews
+  - Email Clients
+  - Spam Testing
+  - Accessibility
+  - HTML Validation
+  - Email Quality Assurance
+  - Pre-Deployment Testing
+apis:
+  - name: Email on Acid API
+    description: REST API for automating email testing across 100+ email clients and
+      devices, including email rendering previews, spam filter testing, seed list
+      management, and accessibility checks. Supports sandbox mode for development
+      and test result storage for 90 days.
+    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    humanURL: https://api.emailonacid.com/docs/latest
+    baseURL: https://api.emailonacid.com/v5
+    tags:
+      - Email Testing
+      - Email Previews
+      - Spam Testing
+      - Email Clients
+      - Rendering
+    properties:
+      - type: Documentation
+        url: https://api.emailonacid.com/docs/latest
+      - type: OpenAPI
+        url: https://api.emailonacid.com/docs/latest
+    contact:
+      - FN: Email on Acid Support
+        url: https://www.emailonacid.com/contact/
+common:
+  - type: Website
+    url: https://www.emailonacid.com
+  - type: Documentation
+    url: https://api.emailonacid.com/docs/latest
+  - type: GitHubOrg
+    url: https://github.com/emailonacid
+  - type: LinkedIn
+    url: https://www.linkedin.com/company/email-on-acid
+  - type: Blog
+    url: https://www.emailonacid.com/blog/
+  - type: Pricing
+    url: https://www.emailonacid.com/pricing/
+  - type: StatusPage
+    url: https://status.emailonacid.com/
+  - type: X
+    url: https://twitter.com/EmailOnAcid
+  - type: Plans
+    url: plans/email-on-acid-plans-pricing.yml
+  - type: RateLimits
+    url: rate-limits/email-on-acid-rate-limits.yml
+  - type: FinOps
+    url: finops/email-on-acid-finops.yml
+maintainers:
+  - FN: Kin Lane
+    email: kin@apievangelist.com

@@ -1,0 +1,95 @@
+specificationVersion: '1.0'
+id: email-on-acid-finops
+name: Email on Acid FinOps Framework
+description: FinOps Framework FOCUS-aligned cost management reference for the Email
+  on Acid (Mailgun Inspect) email testing API. Covers cost allocation, usage optimization,
+  and spend visibility for teams using the email preview and quality assurance API
+  in automated pre-deployment pipelines.
+url: https://www.emailonacid.com/pricing/
+provider: Email on Acid
+product: Email on Acid API (Mailgun Inspect)
+currency: USD
+costCategories:
+  - name: Subscription Fees
+    description: Fixed monthly or annual subscription cost for the chosen plan tier.
+      Represents the baseline committed spend regardless of API usage volume.
+    type: fixed
+    billingCycle: monthly
+    plans:
+      - name: Basic
+        monthlyRate: 99.00
+        annualMonthlyRate: 84.15
+        annualSavings: 15
+        annualSavingsUnit: percent
+      - name: Premium
+        monthlyRate: 199.00
+        annualMonthlyRate: 169.15
+        annualSavings: 15
+        annualSavingsUnit: percent
+      - name: Contract
+        monthlyRate: custom
+        notes: Contact sales for enterprise pricing
+  - name: Overage Charges
+    description: Variable costs incurred when API email preview consumption exceeds
+      the monthly allotment included in the subscription plan. Applies to Basic and
+      Premium plans.
+    type: variable
+    unit: per preview
+    rate: 0.15
+    currency: USD
+    plans:
+      - Basic
+      - Premium
+    notes: Monitor monthly preview consumption via account dashboard to avoid unexpected
+      overage charges in automated CI/CD pipelines.
+costAllocation:
+  - dimension: Team
+    description: Allocate email preview costs to engineering, marketing, or QA teams
+      based on API key usage or test volume per team.
+  - dimension: Environment
+    description: Separate costs for production pre-deployment testing vs. development/staging
+      using sandbox mode (sandbox credentials consume no production credits).
+  - dimension: Campaign
+    description: Tag email tests by campaign or project using test naming conventions
+      to attribute preview costs to specific marketing or product initiatives.
+optimization:
+  - name: Use Sandbox Mode for Development
+    description: Use the sandbox authentication mode (username and password both set
+      to "sandbox") during development and integration testing to avoid consuming
+      paid preview credits.
+    savingsPotential: high
+  - name: Batch Email Client Selection
+    description: Limit email client selections to only the clients relevant to your
+      audience rather than testing all 100+ clients every time, reducing preview
+      count per test run.
+    savingsPotential: medium
+  - name: Annual Billing Discount
+    description: Switch from monthly to annual billing to save 15% on subscription
+      costs for predictable, steady-state usage.
+    savingsPotential: 15 percent annually
+  - name: Monitor Monthly Preview Consumption
+    description: Track API preview usage against monthly plan limits to avoid overage
+      charges. Set up internal alerts when approaching 80% of monthly allotment.
+    savingsPotential: medium
+  - name: Right-Size Plan Tier
+    description: Analyze monthly preview consumption patterns to ensure the plan tier
+      matches actual usage. Upgrade to Contract plan only when overage charges exceed
+      the delta between Premium and Contract pricing.
+    savingsPotential: medium
+visibility:
+  - name: Account Dashboard
+    description: Monitor email preview usage, remaining monthly allotment, and test
+      history through the Email on Acid account dashboard.
+    url: https://app.emailonacid.com/app/site/dashboard
+  - name: API Authentication Check
+    description: Validate API key and account status programmatically via GET https://api.emailonacid.com/v5/auth
+    url: https://api.emailonacid.com/v5/auth
+  - name: Status Page
+    description: Monitor API operational status and incident history to understand
+      service availability impacts on testing workflows.
+    url: https://status.emailonacid.com/
+compliance:
+  - SOC 2 Type 1
+  - ISO 27001
+  - ISO 27701
+  - GDPR

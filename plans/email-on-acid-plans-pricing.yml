@@ -1,0 +1,133 @@
+specificationVersion: '0.1'
+id: email-on-acid-plans-pricing
+name: Email on Acid Plans and Pricing
+description: Pricing plans for Email on Acid (Mailgun Inspect) email testing and
+  pre-deployment quality assurance platform. All plans include API access and unlimited
+  user seats. Higher tiers unlock advanced quality checks and more monthly preview
+  credits.
+url: https://www.emailonacid.com/pricing/
+plans:
+  - name: Basic
+    description: Entry-level plan for teams needing email rendering previews across
+      100+ clients with API access and unlimited seats. Overage pricing applies beyond
+      included monthly previews.
+    url: https://www.emailonacid.com/pricing/
+    price: 99.00
+    currency: USD
+    billingCycle: monthly
+    annualDiscount: 15
+    features:
+      - name: Monthly Email Previews
+        description: Number of email rendering previews included per month
+        value: '1000'
+      - name: Email Clients and Devices
+        description: Number of email clients and devices available for preview testing
+        value: '100+'
+      - name: API Access
+        description: Full REST API access for automating email testing workflows
+        value: included
+      - name: User Seats
+        description: Number of user seats included in the plan
+        value: unlimited
+      - name: Accessibility Checks
+        description: WCAG 2.2 accessibility compliance checking
+        value: not included
+      - name: HTML Code Analysis
+        description: HTML and CSS compatibility validation
+        value: not included
+      - name: Link Validation
+        description: Automated link checking in email content
+        value: not included
+      - name: Image Validation
+        description: Image rendering and validation checks
+        value: not included
+      - name: Spam Content Checks
+        description: Spam filter analysis across major ISPs
+        value: not included
+      - name: Support
+        description: Available support channels
+        value: ticket only
+      - name: Overage Price Per Preview
+        description: Cost per preview beyond the monthly allotment
+        value: $0.15
+  - name: Premium
+    description: Most popular plan for teams requiring full email quality assurance
+      including accessibility, spam testing, link/image validation, and HTML analysis
+      with chat support.
+    url: https://www.emailonacid.com/pricing/
+    price: 199.00
+    currency: USD
+    billingCycle: monthly
+    annualDiscount: 15
+    features:
+      - name: Monthly Email Previews
+        description: Number of email rendering previews included per month
+        value: '2000'
+      - name: Email Clients and Devices
+        description: Number of email clients and devices available for preview testing
+        value: '100+'
+      - name: API Access
+        description: Full REST API access for automating email testing workflows
+        value: included
+      - name: User Seats
+        description: Number of user seats included in the plan
+        value: unlimited
+      - name: Accessibility Checks
+        description: WCAG 2.2 accessibility compliance checking
+        value: included
+      - name: HTML Code Analysis
+        description: HTML and CSS compatibility validation
+        value: included
+      - name: Link Validation
+        description: Automated link checking in email content
+        value: included
+      - name: Image Validation
+        description: Image rendering and validation checks
+        value: included
+      - name: Spam Content Checks
+        description: Spam filter analysis across major ISPs
+        value: included
+      - name: Support
+        description: Available support channels
+        value: ticket and chat
+      - name: Overage Price Per Preview
+        description: Cost per preview beyond the monthly allotment
+        value: $0.15
+  - name: Contract
+    description: Enterprise-grade plan with custom preview allotments, phone support,
+      and tailored pricing for high-volume email testing operations.
+    url: https://www.emailonacid.com/pricing/
+    price: custom
+    currency: USD
+    billingCycle: annual
+    features:
+      - name: Monthly Email Previews
+        description: Number of email rendering previews included per month
+        value: custom allotment
+      - name: Email Clients and Devices
+        description: Number of email clients and devices available for preview testing
+        value: '100+'
+      - name: API Access
+        description: Full REST API access for automating email testing workflows
+        value: included
+      - name: User Seats
+        description: Number of user seats included in the plan
+        value: unlimited
+      - name: Accessibility Checks
+        description: WCAG 2.2 accessibility compliance checking
+        value: included
+      - name: HTML Code Analysis
+        description: HTML and CSS compatibility validation
+        value: included
+      - name: Link Validation
+        description: Automated link checking in email content
+        value: included
+      - name: Image Validation
+        description: Image rendering and validation checks
+        value: included
+      - name: Spam Content Checks
+        description: Spam filter analysis across major ISPs
+        value: included
+      - name: Support
+        description: Available support channels
+        value: phone and chat
