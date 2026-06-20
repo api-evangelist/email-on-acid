@@ -4,7 +4,7 @@ description: Email on Acid (now branded as Mailgun Inspect) is an email testing 
   across 100+ email clients and devices, checking accessibility compliance (WCAG 2.2),
   validating HTML/CSS compatibility, running spam filter analysis, and automating
   pre-send email testing workflows via HTTP Basic Authentication.
-image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: https://raw.githubusercontent.com/api-evangelist/email-on-acid/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -26,7 +26,7 @@ apis:
       devices, including email rendering previews, spam filter testing, seed list
       management, and accessibility checks. Supports sandbox mode for development
       and test result storage for 90 days.
-    image: https://kinlane-productions.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     humanURL: https://api.emailonacid.com/docs/latest
     baseURL: https://api.emailonacid.com/v5
     tags:
