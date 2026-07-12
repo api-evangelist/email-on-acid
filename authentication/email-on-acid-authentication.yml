@@ -1,0 +1,14 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/email-on-acid-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: HTTP Basic Authentication using `<api_key>:<account_password>` base64-encoded.
+    Use "sandbox:sandbox" credentials for sandbox testing.
+  sources:
+  - openapi/email-on-acid-openapi.yml

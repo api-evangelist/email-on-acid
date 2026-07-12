@@ -44,6 +44,12 @@ apis:
       - FN: Email on Acid Support
         url: https://www.emailonacid.com/contact/
 common:
+  - type: TrustCenter
+    url: security/email-on-acid-trust-center.yml
+  - type: DomainSecurity
+    url: security/email-on-acid-domain-security.yml
+  - type: Authentication
+    url: authentication/email-on-acid-authentication.yml
   - type: Website
     url: https://www.emailonacid.com
   - type: Documentation
