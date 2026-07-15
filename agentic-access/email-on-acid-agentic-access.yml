@@ -1,0 +1,282 @@
+generated: '2026-07-15'
+method: generated
+source: openapi/email-on-acid-openapi.yml
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 23
+  by_action_class:
+    connected: 17
+    acting: 6
+  by_consequence:
+    read: 17
+    write: 6
+  human_in_the_loop_required: 0
+operations:
+- path: /auth
+  method: get
+  operationId: testAuth
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/clients
+  method: get
+  operationId: getEmailClients
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/clients/default
+  method: get
+  operationId: getDefaultEmailClients
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/clients/default
+  method: put
+  operationId: setDefaultEmailClients
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /email/tests
+  method: get
+  operationId: getEmailTests
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/tests
+  method: post
+  operationId: createEmailTest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /email/tests/{testId}
+  method: get
+  operationId: getEmailTest
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/tests/{testId}
+  method: delete
+  operationId: deleteEmailTest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /email/tests/{testId}/results
+  method: get
+  operationId: getEmailTestResults
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/tests/{testId}/results/{clientId}
+  method: get
+  operationId: getEmailTestResultByClient
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/tests/{testId}/results/reprocess
+  method: put
+  operationId: reprocessScreenshots
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /email/tests/{testId}/content
+  method: get
+  operationId: getEmailTestContent
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/tests/{testId}/content/inlinecss
+  method: get
+  operationId: getEmailTestContentInlineCss
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/tests/{testId}/content/textonly
+  method: get
+  operationId: getEmailTestContentTextOnly
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/tests/{testId}/spam/results
+  method: get
+  operationId: getEmailTestSpamResults
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /email/tests/{testId}/spam/seedlist
+  method: get
+  operationId: getEmailTestSpamSeedList
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /spam/clients
+  method: get
+  operationId: getSpamClients
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /spam/tests
+  method: get
+  operationId: getSpamTests
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /spam/tests
+  method: post
+  operationId: createSpamTest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /spam/tests/{testId}
+  method: get
+  operationId: getSpamTestResults
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /spam/tests/{testId}
+  method: delete
+  operationId: deleteSpamTest
+  x-agentic-access:
+    action-class: acting
+    consequence: write
+    subject: required
+    audience: null
+    token:
+      max-ttl: 900
+    escalation:
+      human-in-the-loop: conditional
+      triggers:
+      - abnormal
+      - high-value
+    audit: required
+- path: /spam/tests/{testId}/seedlist
+  method: get
+  operationId: getSpamTestSeedList
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /spam/seedlist
+  method: get
+  operationId: reserveSeedList
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
