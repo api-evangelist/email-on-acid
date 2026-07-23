@@ -1,0 +1,87 @@
+openapi: 3.0.3
+info:
+  title: Email on Acid Authentication API
+  description: 'REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.
+
+    '
+  version: '5.0'
+  contact:
+    name: Email on Acid Support
+    url: https://www.emailonacid.com/contact/
+  license:
+    name: Proprietary
+    url: https://www.emailonacid.com/terms/
+servers:
+- url: https://api.emailonacid.com/v5
+  description: Email on Acid API v5
+security:
+- basicAuth: []
+tags:
+- name: Authentication
+  description: Verify API credentials
+paths:
+  /auth:
+    get:
+      summary: Test authentication
+      operationId: testAuth
+      tags:
+      - Authentication
+      description: 'Verify that API credentials are valid. Returns success if authentication succeeds. Use username and password "sandbox" for sandbox access.
+
+        '
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthSuccess'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+components:
+  responses:
+    AccessDenied:
+      description: Authentication failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: AccessDenied
+              message: Invalid API credentials
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Error type identifier
+              enum:
+              - AccessDenied
+              - RateLimited
+              - InvalidJSON
+              - InvalidParameter
+              - InvalidTestID
+              - InvalidClient
+              - PermissionError
+              - TestLimitReached
+            message:
+              type: string
+              description: Human-readable error description
+    AuthSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'HTTP Basic Authentication using `<api_key>:<account_password>` base64-encoded. Use "sandbox:sandbox" credentials for sandbox testing.
+
+        '

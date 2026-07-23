@@ -1,0 +1,199 @@
+openapi: 3.0.3
+info:
+  title: Email on Acid Authentication Email Clients API
+  description: 'REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.
+
+    '
+  version: '5.0'
+  contact:
+    name: Email on Acid Support
+    url: https://www.emailonacid.com/contact/
+  license:
+    name: Proprietary
+    url: https://www.emailonacid.com/terms/
+servers:
+- url: https://api.emailonacid.com/v5
+  description: Email on Acid API v5
+security:
+- basicAuth: []
+tags:
+- name: Email Clients
+  description: Manage email client lists and defaults for testing
+paths:
+  /email/clients:
+    get:
+      summary: Get available email clients
+      operationId: getEmailClients
+      tags:
+      - Email Clients
+      description: 'Retrieves a list of all available email clients for testing, filtered by the account''s plan eligibility.
+
+        '
+      responses:
+        '200':
+          description: Map of available email clients
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailClientsMap'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+  /email/clients/default:
+    get:
+      summary: Get default email clients
+      operationId: getDefaultEmailClients
+      tags:
+      - Email Clients
+      description: Retrieves the list of client IDs configured as defaults for email testing.
+      responses:
+        '200':
+          description: List of default client IDs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientList'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+    put:
+      summary: Set default email clients
+      operationId: setDefaultEmailClients
+      tags:
+      - Email Clients
+      description: Updates the configured default clients used when no clients are specified in a test.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientList'
+            example:
+              clients:
+              - outlook16
+              - gmail_chr26_win
+              - iphone6p_9
+      responses:
+        '200':
+          description: Updated default clients with optional warnings for invalid IDs
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SetDefaultClientsResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/AccessDenied'
+components:
+  schemas:
+    EmailClientsMap:
+      type: object
+      description: Map of client ID to email client details
+      additionalProperties:
+        $ref: '#/components/schemas/EmailClient'
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Error type identifier
+              enum:
+              - AccessDenied
+              - RateLimited
+              - InvalidJSON
+              - InvalidParameter
+              - InvalidTestID
+              - InvalidClient
+              - PermissionError
+              - TestLimitReached
+            message:
+              type: string
+              description: Human-readable error description
+    SetDefaultClientsResponse:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Updated list of default client IDs
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Invalid client IDs that were removed
+    EmailClient:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique client identifier usable in test creation
+        client:
+          type: string
+          description: Display name of the email client
+        os:
+          type: string
+          description: Operating system name
+        category:
+          type: string
+          enum:
+          - Application
+          - Mobile
+          - Web
+          description: Client classification
+        browser:
+          type: string
+          description: Browser name (if applicable)
+        rotate:
+          type: boolean
+          description: Whether device orientation change is supported
+        image_blocking:
+          type: boolean
+          description: Whether image blocking capability is supported
+        free:
+          type: boolean
+          description: Whether available on free tier tests
+        default:
+          type: boolean
+          description: Whether included in default client processing
+    ClientList:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Array of email client IDs
+          example:
+          - outlook16
+          - gmail_chr26_win
+          - iphone6p_9
+  responses:
+    AccessDenied:
+      description: Authentication failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: AccessDenied
+              message: Invalid API credentials
+    BadRequest:
+      description: Invalid request parameters or JSON
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: InvalidJSON
+              message: Malformed JSON in request body
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'HTTP Basic Authentication using `<api_key>:<account_password>` base64-encoded. Use "sandbox:sandbox" credentials for sandbox testing.
+
+        '
