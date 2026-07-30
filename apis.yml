@@ -4,7 +4,20 @@ description: Email on Acid (now branded as Mailgun Inspect) is an email testing 
   across 100+ email clients and devices, checking accessibility compliance (WCAG 2.2),
   validating HTML/CSS compatibility, running spam filter analysis, and automating
   pre-send email testing workflows via HTTP Basic Authentication.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/email-on-acid.png
 url: https://raw.githubusercontent.com/api-evangelist/email-on-acid/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -21,28 +34,54 @@ tags:
   - Email Quality Assurance
   - Pre-Deployment Testing
 apis:
-  - name: Email on Acid API
-    description: REST API for automating email testing across 100+ email clients and
-      devices, including email rendering previews, spam filter testing, seed list
-      management, and accessibility checks. Supports sandbox mode for development
-      and test result storage for 90 days.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://api.emailonacid.com/docs/latest
-    baseURL: https://api.emailonacid.com/v5
-    tags:
-      - Email Testing
-      - Email Previews
-      - Spam Testing
-      - Email Clients
-      - Rendering
-    properties:
-      - type: Documentation
-        url: https://api.emailonacid.com/docs/latest
-      - type: OpenAPI
-        url: https://raw.githubusercontent.com/api-evangelist/email-on-acid/refs/heads/main/openapi/email-on-acid-openapi.yml
-    contact:
-      - FN: Email on Acid Support
-        url: https://www.emailonacid.com/contact/
+- aid: email-on-acid:email-on-acid-authentication-api
+  name: Email on Acid Authentication API
+  description: Verify API credentials
+  humanURL: https://api.emailonacid.com/docs/latest
+  baseURL: https://api.emailonacid.com/v5
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/email-on-acid-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://api.emailonacid.com/docs/latest
+- aid: email-on-acid:email-on-acid-email-clients-api
+  name: Email on Acid Email Clients API
+  description: Manage email client lists and defaults for testing
+  humanURL: https://api.emailonacid.com/docs/latest
+  baseURL: https://api.emailonacid.com/v5
+  tags:
+  - Email Clients
+  properties:
+  - type: OpenAPI
+    url: openapi/email-on-acid-email-clients-api-openapi.yml
+  - type: Documentation
+    url: https://api.emailonacid.com/docs/latest
+- aid: email-on-acid:email-on-acid-email-testing-api
+  name: Email on Acid Email Testing API
+  description: Create and manage email rendering tests
+  humanURL: https://api.emailonacid.com/docs/latest
+  baseURL: https://api.emailonacid.com/v5
+  tags:
+  - Email Testing
+  properties:
+  - type: OpenAPI
+    url: openapi/email-on-acid-email-testing-api-openapi.yml
+  - type: Documentation
+    url: https://api.emailonacid.com/docs/latest
+- aid: email-on-acid:email-on-acid-spam-testing-api
+  name: Email on Acid Spam Testing API
+  description: Standalone spam filter analysis and seed list management
+  humanURL: https://api.emailonacid.com/docs/latest
+  baseURL: https://api.emailonacid.com/v5
+  tags:
+  - Spam Testing
+  properties:
+  - type: OpenAPI
+    url: openapi/email-on-acid-spam-testing-api-openapi.yml
+  - type: Documentation
+    url: https://api.emailonacid.com/docs/latest
 common:
   - type: AgenticAccess
     url: agentic-access/email-on-acid-agentic-access.yml
