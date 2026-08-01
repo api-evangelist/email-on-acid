@@ -1,0 +1,20 @@
+{
+  "provider": "email-on-acid",
+  "sources": [
+    "email-on-acid-authentication-api-openapi.yml",
+    "email-on-acid-email-clients-api-openapi.yml",
+    "email-on-acid-email-testing-api-openapi.yml",
+    "email-on-acid-spam-testing-api-openapi.yml"
+  ],
+  "outputs": [
+    "email-on-acid-authentication-api-openapi.yml",
+    "email-on-acid-email-clients-api-openapi.yml",
+    "email-on-acid-email-testing-api-openapi.yml",
+    "email-on-acid-spam-testing-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
