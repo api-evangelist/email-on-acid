@@ -1,0 +1,36 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Email on Acid Authentication API",
+    "version": "5.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Test authentication",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/auth"
+          },
+          "docs": "Verify that API credentials are valid. Returns success if authentication succeeds. Use username and password \"sandbox\" for sandbox access.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

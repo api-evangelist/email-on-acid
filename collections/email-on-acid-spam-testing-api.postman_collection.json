@@ -1,0 +1,1363 @@
+{
+  "item": [
+    {
+      "id": "3016c66c-9b78-48c0-a0b9-8c1d48669f62",
+      "name": "Spam Testing",
+      "description": {
+        "content": "Standalone spam filter analysis and seed list management",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9c2ba9ff-f173-42c1-bbe2-ff24e2cc62d1",
+          "name": "Get available spam clients",
+          "request": {
+            "name": "Get available spam clients",
+            "description": {
+              "content": "Retrieve metadata about currently active spam filter clients available for testing.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "spam",
+                "clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e9f741eb-c8b7-4c91-b6db-164c1a258ada",
+              "name": "List of spam clients",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"client\": \"string\",\n    \"type\": \"b2b\",\n    \"description\": \"string\"\n  },\n  {\n    \"client\": \"string\",\n    \"type\": \"b2c\",\n    \"description\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "991d0b69-2a43-404f-9d43-2a6c49873da2",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "2333bdaa-48c2-482c-acb6-7eaa727bfa84",
+          "name": "Get all spam tests",
+          "request": {
+            "name": "Get all spam tests",
+            "description": {
+              "content": "Retrieve a list of all standalone spam tests, with optional filtering and pagination. Tests are stored for 90 days.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "spam",
+                "tests"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "from",
+                  "value": "<string>",
+                  "description": "Start of date range (ISO date string, Unix timestamp, or relative term like \"yesterday\")"
+                },
+                {
+                  "disabled": false,
+                  "key": "to",
+                  "value": "<string>",
+                  "description": "End of date range (ISO date string, Unix timestamp, or relative term like \"yesterday\")"
+                },
+                {
+                  "disabled": false,
+                  "key": "subject",
+                  "value": "<string>",
+                  "description": "Exact subject line match (case-insensitive)"
+                },
+                {
+                  "disabled": false,
+                  "key": "results",
+                  "value": "50",
+                  "description": "Number of results to return per page"
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for paginated results"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0dc7f5f7-ffb4-4dae-8016-a22df12ba483",
+              "name": "List of spam tests",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subject",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "results",
+                      "value": "50"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": \"string\",\n    \"date\": 9966,\n    \"type\": \"email-test\",\n    \"headers\": {\n      \"key_0\": \"string\"\n    }\n  },\n  {\n    \"id\": \"string\",\n    \"date\": 3269,\n    \"type\": \"email-test\",\n    \"headers\": {\n      \"key_0\": \"string\",\n      \"key_1\": \"string\",\n      \"key_2\": \"string\"\n    }\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "9dbf34e5-f9d6-46f7-a48b-abdcf8683587",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "from",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "to",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "subject",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "results",
+                      "value": "50"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dccb08e2-ad62-4e8d-b98a-b224c14233df",
+          "name": "Create spam test",
+          "request": {
+            "name": "Create spam test",
+            "description": {
+              "content": "Create and submit a standalone spam filter test. Either `html` or `url` must be provided. Supports eoa, smtp, and seed test methods.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "spam",
+                "tests"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subject\": \"<string>\",\n  \"html\": \"<string>\",\n  \"url\": \"<uri>\",\n  \"transfer_encoding\": \"8bit\",\n  \"charset\": \"utf-8\",\n  \"sandbox\": false,\n  \"reference_id\": \"<string>\",\n  \"customer_id\": \"<string>\",\n  \"test_method\": \"eoa\",\n  \"from_address\": \"<email>\",\n  \"key\": \"<string>\",\n  \"smtp_info\": {\n    \"host\": \"<string>\",\n    \"port\": 25,\n    \"secure\": \"\",\n    \"username\": \"<string>\",\n    \"password\": \"<string>\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ae8a4dbc-6718-47e3-ab28-110f43084ad1",
+              "name": "Spam test created successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"subject\": \"My Email Subject\",\n  \"html\": \"<html><body><p>Hello World</p></body></html>\",\n  \"transfer_encoding\": \"8bit\",\n  \"charset\": \"utf-8\",\n  \"test_method\": \"seed\",\n  \"from_address\": \"my.test@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"reference_id\": \"string\",\n  \"customer_id\": \"string\",\n  \"address_list\": [\n    \"cTadaMiJBC3ilYo@KdRPUCEndqAVNGwsdjFbWALuLZQiUehl.vry\",\n    \"l95h3sVbZmhBM@KzieEUiVLKvQJMTxAwuc.oxy\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "dc970360-d7ca-4298-8668-7e6389d65383",
+              "name": "Invalid request parameters or JSON",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"subject\": \"My Email Subject\",\n  \"html\": \"<html><body><p>Hello World</p></body></html>\",\n  \"transfer_encoding\": \"8bit\",\n  \"charset\": \"utf-8\",\n  \"test_method\": \"seed\",\n  \"from_address\": \"my.test@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"InvalidJSON\",\n    \"message\": \"Malformed JSON in request body\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4dcca01-2464-4683-9fba-92807999e543",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"subject\": \"My Email Subject\",\n  \"html\": \"<html><body><p>Hello World</p></body></html>\",\n  \"transfer_encoding\": \"8bit\",\n  \"charset\": \"utf-8\",\n  \"test_method\": \"seed\",\n  \"from_address\": \"my.test@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c127e47c-cd2a-4a48-81ff-af0c1b9fe3f9",
+              "name": "Account plan does not permit this operation",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"subject\": \"My Email Subject\",\n  \"html\": \"<html><body><p>Hello World</p></body></html>\",\n  \"transfer_encoding\": \"8bit\",\n  \"charset\": \"utf-8\",\n  \"test_method\": \"seed\",\n  \"from_address\": \"my.test@example.com\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"PermissionError\",\n    \"message\": \"Your plan does not include this feature\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "9dc881f8-1378-41fe-be2a-ffd11ef7beb7",
+          "name": "Get spam test results",
+          "request": {
+            "name": "Get spam test results",
+            "description": {
+              "content": "Retrieve spam verdict results for a specific standalone spam test.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "spam",
+                "tests",
+                ":testId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "testId",
+                  "description": "(Required) Unique identifier for the test"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b2e7a2f2-cbf4-4fda-9667-d731870d8b92",
+              "name": "Spam filter results per client",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"client\": \"string\",\n    \"type\": \"b2c\",\n    \"spam\": 5088,\n    \"details\": \"string\"\n  },\n  {\n    \"client\": \"string\",\n    \"type\": \"b2b\",\n    \"spam\": 3373,\n    \"details\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "23fe9dac-ebd5-4116-9247-e9887f793e42",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "4cfafc16-1fdd-4274-8e8c-ec1f49a716dd",
+              "name": "Test not found or not accessible",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"InvalidTestID\",\n    \"message\": \"Test not found or access denied\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "13828832-b740-4a0e-b1b4-48902bfe6339",
+          "name": "Delete spam test",
+          "request": {
+            "name": "Delete spam test",
+            "description": {
+              "content": "Permanently delete a specific standalone spam test.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "spam",
+                "tests",
+                ":testId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "testId",
+                  "description": "(Required) Unique identifier for the test"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5aee5ca6-9e3a-4480-a319-8f5c9078c049",
+              "name": "Spam test deleted successfully",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "756c6d8d-8f37-4276-8ec8-2d722673bc54",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d4571155-6b44-41f5-a50f-b351ac525e04",
+              "name": "Test not found or not accessible",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"InvalidTestID\",\n    \"message\": \"Test not found or access denied\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "194500e6-a8ec-403b-b94e-c75118720702",
+          "name": "Get spam test seed list",
+          "request": {
+            "name": "Get spam test seed list",
+            "description": {
+              "content": "Retrieve the seed list email addresses for a seed-method spam test.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "spam",
+                "tests",
+                ":testId",
+                "seedlist"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "testId",
+                  "description": "(Required) Unique identifier for the test"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "e694725e-dcc8-47f4-b889-d1606393e5bf",
+              "name": "List of seed list email addresses",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId",
+                    "seedlist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  \"3Vu@cVkGCtxMeRv.xmb\",\n  \"oHQ1chWoq6h@A.ujx\"\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "a7899b00-be18-4b4d-9ae5-b0036ab92a4a",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId",
+                    "seedlist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "154437ca-a36a-4395-bbb5-42e8c875cffa",
+              "name": "Test not found or not accessible",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "tests",
+                    ":testId",
+                    "seedlist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "testId",
+                      "description": "(Required) Unique identifier for the test"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"InvalidTestID\",\n    \"message\": \"Test not found or access denied\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0c4a714e-1cb9-4cc7-a59b-3c1fe8a6033e",
+          "name": "Reserve seed list",
+          "request": {
+            "name": "Reserve seed list",
+            "description": {
+              "content": "Pre-reserve a seed list before creating a spam test. Returns a key and list of seed addresses to send email to prior to test creation.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "spam",
+                "seedlist"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "12b6c4dd-4a58-4a92-a526-1a7a0492904d",
+              "name": "Reserved seed list key and addresses",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "seedlist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key\": \"string\",\n  \"address_list\": [\n    \"kAo2FUh3QHL@PPpvnRBACQDoOWhgUccoPxqEtP.nep\",\n    \"PVzG6YOb3lPdfY@PXQeaRhOplENdAsvSgiO.tzvh\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "face464f-b3f3-4108-83a6-3dcf0db4afb6",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "spam",
+                    "seedlist"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.emailonacid.com/v5",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a87469c1-b5ae-4447-9268-da79ae5d6d4e",
+    "name": "Email on Acid Authentication Spam Testing API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.\n\n\nContact Support:\n Name: Email on Acid Support",
+      "type": "text/plain"
+    }
+  }
+}

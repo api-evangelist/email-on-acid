@@ -1,0 +1,166 @@
+{
+  "item": [
+    {
+      "id": "7f133d6e-33fe-4d59-a6d8-2fa2372396ed",
+      "name": "Authentication",
+      "description": {
+        "content": "Verify API credentials",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "0ff0637c-7b13-4017-9da1-a2e7b798a07b",
+          "name": "Test authentication",
+          "request": {
+            "name": "Test authentication",
+            "description": {
+              "content": "Verify that API credentials are valid. Returns success if authentication succeeds. Use username and password \"sandbox\" for sandbox access.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "auth"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f08ca2af-717a-475f-9ecd-262bd2d092a3",
+              "name": "Authentication successful",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"success\": true\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "93000572-7fd8-458e-ade9-3ef31af73405",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "auth"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.emailonacid.com/v5",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "213688b1-599d-43e1-af4a-5ea3e09b3895",
+    "name": "Email on Acid Authentication API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.\n\n\nContact Support:\n Name: Email on Acid Support",
+      "type": "text/plain"
+    }
+  }
+}

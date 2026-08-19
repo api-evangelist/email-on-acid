@@ -1,0 +1,162 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Email on Acid Authentication Spam Testing API",
+    "version": "5.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Spam Testing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get available spam clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/spam/clients"
+          },
+          "docs": "Retrieve metadata about currently active spam filter clients available for testing."
+        },
+        {
+          "info": {
+            "name": "Get all spam tests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/spam/tests",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of date range (ISO date string, Unix timestamp, or relative term like \"yesterday\")"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of date range (ISO date string, Unix timestamp, or relative term like \"yesterday\")"
+              },
+              {
+                "name": "subject",
+                "value": "",
+                "type": "query",
+                "description": "Exact subject line match (case-insensitive)"
+              },
+              {
+                "name": "results",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of all standalone spam tests, with optional filtering and pagination. Tests are stored for 90 days.\n"
+        },
+        {
+          "info": {
+            "name": "Create spam test",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.emailonacid.com/v5/spam/tests",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create and submit a standalone spam filter test. Either `html` or `url` must be provided. Supports eoa, smtp, and seed test methods.\n"
+        },
+        {
+          "info": {
+            "name": "Get spam test results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/spam/tests/:testId",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve spam verdict results for a specific standalone spam test."
+        },
+        {
+          "info": {
+            "name": "Delete spam test",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.emailonacid.com/v5/spam/tests/:testId",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Permanently delete a specific standalone spam test."
+        },
+        {
+          "info": {
+            "name": "Get spam test seed list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/spam/tests/:testId/seedlist",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve the seed list email addresses for a seed-method spam test."
+        },
+        {
+          "info": {
+            "name": "Reserve seed list",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/spam/seedlist"
+          },
+          "docs": "Pre-reserve a seed list before creating a spam test. Returns a key and list of seed addresses to send email to prior to test creation.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,283 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Email on Acid Authentication Email Testing API",
+    "version": "5.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Email Testing",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get all email tests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests",
+            "params": [
+              {
+                "name": "from",
+                "value": "",
+                "type": "query",
+                "description": "Start of date range (ISO date string, Unix timestamp, or relative term like \"yesterday\")"
+              },
+              {
+                "name": "to",
+                "value": "",
+                "type": "query",
+                "description": "End of date range (ISO date string, Unix timestamp, or relative term like \"yesterday\")"
+              },
+              {
+                "name": "subject",
+                "value": "",
+                "type": "query",
+                "description": "Exact subject line match (case-insensitive)"
+              },
+              {
+                "name": "results",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number for paginated results"
+              }
+            ]
+          },
+          "docs": "Retrieve a list of all email tests. Supports filtering and pagination via query parameters.\n"
+        },
+        {
+          "info": {
+            "name": "Create email test",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.emailonacid.com/v5/email/tests",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Submit an email for testing across one or more email clients and devices. Either `html` or `url` must be provided. Tests are retained for 90 days.\n"
+        },
+        {
+          "info": {
+            "name": "Get email test info",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve information and current processing status for a specific email test."
+        },
+        {
+          "info": {
+            "name": "Delete email test",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Permanently delete a specific email test and all associated results."
+        },
+        {
+          "info": {
+            "name": "Get all test results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId/results",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve screenshot rendering results for all clients in an email test. Screenshot URLs support Basic Authentication (permanent, 90-day life) or Presigned URLs (24-hour time-limited).\n"
+        },
+        {
+          "info": {
+            "name": "Get single client test result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId/results/:clientId",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path",
+                "description": "The client identifier (e.g. outlook16, gmail_chr26_win)"
+              }
+            ]
+          },
+          "docs": "Retrieve rendering results for a specific client within an email test."
+        },
+        {
+          "info": {
+            "name": "Reprocess screenshots",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId/results/reprocess",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Request re-rendering of screenshots for specific clients within a test. Each client has a limited number of reprocess attempts.\n"
+        },
+        {
+          "info": {
+            "name": "Get test HTML content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId/content",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve the original HTML content submitted for a specific email test."
+        },
+        {
+          "info": {
+            "name": "Get HTML with inlined CSS",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId/content/inlinecss",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve the email HTML content with all external stylesheets inlined."
+        },
+        {
+          "info": {
+            "name": "Get plain text content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId/content/textonly",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve a plain text approximation of the email HTML content."
+        },
+        {
+          "info": {
+            "name": "Get spam results for email test",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId/spam/results",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve spam filter analysis results for an email test that included spam testing."
+        },
+        {
+          "info": {
+            "name": "Get spam seed list for email test",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/tests/:testId/spam/seedlist",
+            "params": [
+              {
+                "name": "testId",
+                "value": "",
+                "type": "path",
+                "description": "Unique identifier for the test"
+              }
+            ]
+          },
+          "docs": "Retrieve the seed list email addresses for a seed-method spam test."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

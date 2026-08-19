@@ -1,0 +1,62 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Email on Acid Authentication Email Clients API",
+    "version": "5.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Email Clients",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get available email clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/clients"
+          },
+          "docs": "Retrieves a list of all available email clients for testing, filtered by the account's plan eligibility.\n"
+        },
+        {
+          "info": {
+            "name": "Get default email clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.emailonacid.com/v5/email/clients/default"
+          },
+          "docs": "Retrieves the list of client IDs configured as defaults for email testing."
+        },
+        {
+          "info": {
+            "name": "Set default email clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.emailonacid.com/v5/email/clients/default",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates the configured default clients used when no clients are specified in a test."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

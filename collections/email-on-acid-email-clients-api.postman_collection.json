@@ -1,0 +1,505 @@
+{
+  "item": [
+    {
+      "id": "38e9587f-e22c-4acd-a458-bb631677e9b9",
+      "name": "Email Clients",
+      "description": {
+        "content": "Manage email client lists and defaults for testing",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "43500633-0434-4b08-a653-c46ea8bd737b",
+          "name": "Get available email clients",
+          "request": {
+            "name": "Get available email clients",
+            "description": {
+              "content": "Retrieves a list of all available email clients for testing, filtered by the account's plan eligibility.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "email",
+                "clients"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4da9c4b5-5113-49b2-8487-7c2d24e92372",
+              "name": "Map of available email clients",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"key_0\": {\n    \"id\": \"string\",\n    \"client\": \"string\",\n    \"os\": \"string\",\n    \"category\": \"Application\",\n    \"browser\": \"string\",\n    \"rotate\": true,\n    \"image_blocking\": true,\n    \"free\": false,\n    \"default\": false\n  },\n  \"key_1\": {\n    \"id\": \"string\",\n    \"client\": \"string\",\n    \"os\": \"string\",\n    \"category\": \"Mobile\",\n    \"browser\": \"string\",\n    \"rotate\": true,\n    \"image_blocking\": false,\n    \"free\": false,\n    \"default\": true\n  },\n  \"key_2\": {\n    \"id\": \"string\",\n    \"client\": \"string\",\n    \"os\": \"string\",\n    \"category\": \"Application\",\n    \"browser\": \"string\",\n    \"rotate\": false,\n    \"image_blocking\": false,\n    \"free\": true,\n    \"default\": true\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e3fd124e-4bda-48fe-9103-bb8e9f37e976",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email",
+                    "clients"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "95e2368a-3116-46f7-bf57-316506b3016f",
+          "name": "Get default email clients",
+          "request": {
+            "name": "Get default email clients",
+            "description": {
+              "content": "Retrieves the list of client IDs configured as defaults for email testing.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "email",
+                "clients",
+                "default"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8ca1c7bf-f1e6-4de6-be63-bacb66fcfb68",
+              "name": "List of default client IDs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email",
+                    "clients",
+                    "default"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clients\": [\n    \"outlook16\",\n    \"gmail_chr26_win\",\n    \"iphone6p_9\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2145b17d-fc23-4da5-8116-91074f5bfa08",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email",
+                    "clients",
+                    "default"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fc0f6612-9f1e-4fcf-b4ed-59454b01e8c5",
+          "name": "Set default email clients",
+          "request": {
+            "name": "Set default email clients",
+            "description": {
+              "content": "Updates the configured default clients used when no clients are specified in a test.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "email",
+                "clients",
+                "default"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PUT",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"clients\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1350f37f-dcab-4ad3-b011-4519afb087b6",
+              "name": "Updated default clients with optional warnings for invalid IDs",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email",
+                    "clients",
+                    "default"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clients\": [\n    \"outlook16\",\n    \"gmail_chr26_win\",\n    \"iphone6p_9\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"clients\": [\n    \"string\",\n    \"string\"\n  ],\n  \"warnings\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "bc606297-d9bf-4564-b37d-dae6d10cee96",
+              "name": "Invalid request parameters or JSON",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email",
+                    "clients",
+                    "default"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clients\": [\n    \"outlook16\",\n    \"gmail_chr26_win\",\n    \"iphone6p_9\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"InvalidJSON\",\n    \"message\": \"Malformed JSON in request body\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "586491db-db97-4c1c-8045-639513cd007a",
+              "name": "Authentication failure",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "email",
+                    "clients",
+                    "default"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PUT",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"clients\": [\n    \"outlook16\",\n    \"gmail_chr26_win\",\n    \"iphone6p_9\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": {\n    \"name\": \"AccessDenied\",\n    \"message\": \"Invalid API credentials\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.emailonacid.com/v5",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "bb71b92a-baa7-462b-a458-7879cafbc29c",
+    "name": "Email on Acid Authentication Email Clients API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.\n\n\nContact Support:\n Name: Email on Acid Support",
+      "type": "text/plain"
+    }
+  }
+}
