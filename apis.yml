@@ -40,6 +40,15 @@ type: Index
 tags:
   - Email Testing
   - Email Previews
+  - Email Client
+  - Spam Testing
+  - Accessibility
+  - HTML Validation
+  - Email Quality Assurance
+  - Pre-Deployment Testing
+tags_raw:
+  - Email Testing
+  - Email Previews
   - Email Clients
   - Spam Testing
   - Accessibility
@@ -65,6 +74,8 @@ apis:
   humanURL: https://api.emailonacid.com/docs/latest
   baseURL: https://api.emailonacid.com/v5
   tags:
+  - Email Client
+  tags_raw:
   - Email Clients
   properties:
   - type: OpenAPI
