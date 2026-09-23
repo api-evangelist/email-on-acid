@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Email on Acid Authentication Email Clients API
-  description: 'REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.
-
-    '
+  title: Email on Acid Email Clients API
+  description: REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.
   version: '5.0'
   contact:
     name: Email on Acid Support
@@ -26,9 +24,7 @@ paths:
       operationId: getEmailClients
       tags:
       - Email Clients
-      description: 'Retrieves a list of all available email clients for testing, filtered by the account''s plan eligibility.
-
-        '
+      description: Retrieves a list of all available email clients for testing, filtered by the account's plan eligibility.
       responses:
         '200':
           description: Map of available email clients
@@ -84,45 +80,6 @@ paths:
           $ref: '#/components/responses/AccessDenied'
 components:
   schemas:
-    EmailClientsMap:
-      type: object
-      description: Map of client ID to email client details
-      additionalProperties:
-        $ref: '#/components/schemas/EmailClient'
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            name:
-              type: string
-              description: Error type identifier
-              enum:
-              - AccessDenied
-              - RateLimited
-              - InvalidJSON
-              - InvalidParameter
-              - InvalidTestID
-              - InvalidClient
-              - PermissionError
-              - TestLimitReached
-            message:
-              type: string
-              description: Human-readable error description
-    SetDefaultClientsResponse:
-      type: object
-      properties:
-        clients:
-          type: array
-          items:
-            type: string
-          description: Updated list of default client IDs
-        warnings:
-          type: array
-          items:
-            type: string
-          description: Invalid client IDs that were removed
     EmailClient:
       type: object
       properties:
@@ -157,6 +114,27 @@ components:
         default:
           type: boolean
           description: Whether included in default client processing
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Error type identifier
+              enum:
+              - AccessDenied
+              - RateLimited
+              - InvalidJSON
+              - InvalidParameter
+              - InvalidTestID
+              - InvalidClient
+              - PermissionError
+              - TestLimitReached
+            message:
+              type: string
+              description: Human-readable error description
     ClientList:
       type: object
       properties:
@@ -169,17 +147,25 @@ components:
           - outlook16
           - gmail_chr26_win
           - iphone6p_9
+    SetDefaultClientsResponse:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Updated list of default client IDs
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Invalid client IDs that were removed
+    EmailClientsMap:
+      type: object
+      description: Map of client ID to email client details
+      additionalProperties:
+        $ref: '#/components/schemas/EmailClient'
   responses:
-    AccessDenied:
-      description: Authentication failure
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            error:
-              name: AccessDenied
-              message: Invalid API credentials
     BadRequest:
       description: Invalid request parameters or JSON
       content:
@@ -190,6 +176,16 @@ components:
             error:
               name: InvalidJSON
               message: Malformed JSON in request body
+    AccessDenied:
+      description: Authentication failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: AccessDenied
+              message: Invalid API credentials
   securitySchemes:
     basicAuth:
       type: http

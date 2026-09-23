@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Email on Acid Authentication API
-  description: 'REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.
-
-    '
+  description: REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.
   version: '5.0'
   contact:
     name: Email on Acid Support
@@ -26,9 +24,7 @@ paths:
       operationId: testAuth
       tags:
       - Authentication
-      description: 'Verify that API credentials are valid. Returns success if authentication succeeds. Use username and password "sandbox" for sandbox access.
-
-        '
+      description: Verify that API credentials are valid. Returns success if authentication succeeds. Use username and password "sandbox" for sandbox access.
       responses:
         '200':
           description: Authentication successful

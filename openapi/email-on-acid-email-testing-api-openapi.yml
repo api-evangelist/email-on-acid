@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Email on Acid Authentication Email Testing API
-  description: 'REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.
-
-    '
+  title: Email on Acid Email Testing API
+  description: REST API for automating email testing across 100+ email clients and devices, including email rendering previews, spam filter testing, seed list management, and accessibility checks. Now branded as Mailgun Inspect. Supports sandbox mode for development and test result storage for 90 days.
   version: '5.0'
   contact:
     name: Email on Acid Support
@@ -26,9 +24,7 @@ paths:
       operationId: getEmailTests
       tags:
       - Email Testing
-      description: 'Retrieve a list of all email tests. Supports filtering and pagination via query parameters.
-
-        '
+      description: Retrieve a list of all email tests. Supports filtering and pagination via query parameters.
       parameters:
       - $ref: '#/components/parameters/fromDate'
       - $ref: '#/components/parameters/toDate'
@@ -51,9 +47,7 @@ paths:
       operationId: createEmailTest
       tags:
       - Email Testing
-      description: 'Submit an email for testing across one or more email clients and devices. Either `html` or `url` must be provided. Tests are retained for 90 days.
-
-        '
+      description: Submit an email for testing across one or more email clients and devices. Either `html` or `url` must be provided. Tests are retained for 90 days.
       requestBody:
         required: true
         content:
@@ -128,9 +122,7 @@ paths:
       operationId: getEmailTestResults
       tags:
       - Email Testing
-      description: 'Retrieve screenshot rendering results for all clients in an email test. Screenshot URLs support Basic Authentication (permanent, 90-day life) or Presigned URLs (24-hour time-limited).
-
-        '
+      description: Retrieve screenshot rendering results for all clients in an email test. Screenshot URLs support Basic Authentication (permanent, 90-day life) or Presigned URLs (24-hour time-limited).
       parameters:
       - $ref: '#/components/parameters/testId'
       responses:
@@ -176,9 +168,7 @@ paths:
       operationId: reprocessScreenshots
       tags:
       - Email Testing
-      description: 'Request re-rendering of screenshots for specific clients within a test. Each client has a limited number of reprocess attempts.
-
-        '
+      description: Request re-rendering of screenshots for specific clients within a test. Each client has a limited number of reprocess attempts.
       parameters:
       - $ref: '#/components/parameters/testId'
       requestBody:
@@ -312,6 +302,42 @@ paths:
           $ref: '#/components/responses/InvalidTestID'
 components:
   schemas:
+    CreateEmailTestResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique test identifier
+        reference_id:
+          type: string
+          description: Enterprise reference identifier
+        customer_id:
+          type: string
+          description: Enterprise customer identifier
+        spam:
+          type: object
+          properties:
+            key:
+              type: string
+              description: Unique spam test identifier
+            address_list:
+              type: array
+              items:
+                type: string
+                format: email
+              description: Seed list addresses to send email to
+    ClientList:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Array of email client IDs
+          example:
+          - outlook16
+          - gmail_chr26_win
+          - iphone6p_9
     SpamConfig:
       type: object
       description: Spam test configuration embedded in an email test
@@ -333,31 +359,6 @@ components:
           description: Pre-reserved seedlist key (optional for seed method)
         smtp_info:
           $ref: '#/components/schemas/SmtpInfo'
-    EmailTestInfo:
-      type: object
-      properties:
-        subject:
-          type: string
-          description: Email subject line
-        date:
-          type: integer
-          format: int64
-          description: Unix timestamp of test creation
-        completed:
-          type: array
-          items:
-            type: string
-          description: Client IDs with completed rendering
-        processing:
-          type: array
-          items:
-            type: string
-          description: Client IDs currently being processed
-        bounced:
-          type: array
-          items:
-            type: string
-          description: Client IDs that encountered errors
     EmailClientResult:
       type: object
       properties:
@@ -399,17 +400,181 @@ components:
           description: Current rendering status
         status_details:
           $ref: '#/components/schemas/StatusDetails'
+    ReprocessResultsMap:
+      type: object
+      description: Map of client ID to reprocess result
+      additionalProperties:
+        $ref: '#/components/schemas/ReprocessResult'
+    SpamResult:
+      type: object
+      properties:
+        client:
+          type: string
+          description: Spam filter client name
+        type:
+          type: string
+          enum:
+          - b2c
+          - b2b
+          description: Spam client type (business-to-consumer or business-to-business)
+        spam:
+          type:
+          - integer
+          - 'null'
+          description: 'Spam verdict: 1 = marked as spam, 0 = neutral/no decision, -1 = not spam, null/empty = pending
+
+            '
+        details:
+          type: string
+          description: Additional spam filter analysis details
+    EmailTestResultsMap:
+      type: object
+      description: Map of client ID to rendering result
+      additionalProperties:
+        $ref: '#/components/schemas/EmailClientResult'
+    ReprocessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether reprocess was initiated successfully
+        remaining_reprocesses:
+          type: integer
+          description: Remaining reprocess attempts for this client
+        regional:
+          type: boolean
+          description: Whether regional processing was used
+    ScreenshotUrls:
+      type: object
+      properties:
+        default:
+          type: string
+          format: uri
+          description: Default screenshot URL
+        no_images:
+          type: string
+          format: uri
+          description: Screenshot with image blocking applied
+    StatusDetails:
+      type: object
+      properties:
+        submitted:
+          type: integer
+          format: int64
+          description: Unix timestamp when test was submitted
+        completed:
+          type: integer
+          format: int64
+          description: Unix timestamp when test completed
+        attempts:
+          type: integer
+          description: Number of processing attempts
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Error type identifier
+              enum:
+              - AccessDenied
+              - RateLimited
+              - InvalidJSON
+              - InvalidParameter
+              - InvalidTestID
+              - InvalidClient
+              - PermissionError
+              - TestLimitReached
+            message:
+              type: string
+              description: Human-readable error description
+    EmailTestInfo:
+      type: object
+      properties:
+        subject:
+          type: string
+          description: Email subject line
+        date:
+          type: integer
+          format: int64
+          description: Unix timestamp of test creation
+        completed:
+          type: array
+          items:
+            type: string
+          description: Client IDs with completed rendering
+        processing:
+          type: array
+          items:
+            type: string
+          description: Client IDs currently being processed
+        bounced:
+          type: array
+          items:
+            type: string
+          description: Client IDs that encountered errors
+    SmtpInfo:
+      type: object
+      description: SMTP configuration for smtp test method
+      required:
+      - host
+      properties:
+        host:
+          type: string
+          description: SMTP server hostname
+        port:
+          type: integer
+          default: 25
+          description: SMTP port number
+        secure:
+          type: string
+          enum:
+          - ssl
+          - tls
+          - ''
+          default: ''
+          description: Connection security type
+        username:
+          type: string
+          description: SMTP authentication username
+        password:
+          type: string
+          description: SMTP authentication password
+    EmailContent:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Original HTML content of the email test
+    TestSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique test identifier
+        date:
+          type: integer
+          format: int64
+          description: Unix timestamp of test creation
+        type:
+          type: string
+          enum:
+          - email-test
+          - spam-test
+          description: Test type classification
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom X-headers associated with the test
     SuccessResponse:
       type: object
       properties:
         success:
           type: boolean
           example: true
-    ReprocessResultsMap:
-      type: object
-      description: Map of client ID to reprocess result
-      additionalProperties:
-        $ref: '#/components/schemas/ReprocessResult'
     CreateEmailTestRequest:
       type: object
       required:
@@ -468,211 +633,7 @@ components:
           description: Block images in supported clients
         spam:
           $ref: '#/components/schemas/SpamConfig'
-    EmailContent:
-      type: object
-      properties:
-        content:
-          type: string
-          description: Original HTML content of the email test
-    CreateEmailTestResponse:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique test identifier
-        reference_id:
-          type: string
-          description: Enterprise reference identifier
-        customer_id:
-          type: string
-          description: Enterprise customer identifier
-        spam:
-          type: object
-          properties:
-            key:
-              type: string
-              description: Unique spam test identifier
-            address_list:
-              type: array
-              items:
-                type: string
-                format: email
-              description: Seed list addresses to send email to
-    EmailTestResultsMap:
-      type: object
-      description: Map of client ID to rendering result
-      additionalProperties:
-        $ref: '#/components/schemas/EmailClientResult'
-    ClientList:
-      type: object
-      properties:
-        clients:
-          type: array
-          items:
-            type: string
-          description: Array of email client IDs
-          example:
-          - outlook16
-          - gmail_chr26_win
-          - iphone6p_9
-    TestSummary:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique test identifier
-        date:
-          type: integer
-          format: int64
-          description: Unix timestamp of test creation
-        type:
-          type: string
-          enum:
-          - email-test
-          - spam-test
-          description: Test type classification
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-          description: Custom X-headers associated with the test
-    ReprocessResult:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Whether reprocess was initiated successfully
-        remaining_reprocesses:
-          type: integer
-          description: Remaining reprocess attempts for this client
-        regional:
-          type: boolean
-          description: Whether regional processing was used
-    SpamResult:
-      type: object
-      properties:
-        client:
-          type: string
-          description: Spam filter client name
-        type:
-          type: string
-          enum:
-          - b2c
-          - b2b
-          description: Spam client type (business-to-consumer or business-to-business)
-        spam:
-          type: integer
-          nullable: true
-          description: 'Spam verdict: 1 = marked as spam, 0 = neutral/no decision, -1 = not spam, null/empty = pending
-
-            '
-        details:
-          type: string
-          description: Additional spam filter analysis details
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            name:
-              type: string
-              description: Error type identifier
-              enum:
-              - AccessDenied
-              - RateLimited
-              - InvalidJSON
-              - InvalidParameter
-              - InvalidTestID
-              - InvalidClient
-              - PermissionError
-              - TestLimitReached
-            message:
-              type: string
-              description: Human-readable error description
-    SmtpInfo:
-      type: object
-      description: SMTP configuration for smtp test method
-      required:
-      - host
-      properties:
-        host:
-          type: string
-          description: SMTP server hostname
-        port:
-          type: integer
-          default: 25
-          description: SMTP port number
-        secure:
-          type: string
-          enum:
-          - ssl
-          - tls
-          - ''
-          default: ''
-          description: Connection security type
-        username:
-          type: string
-          description: SMTP authentication username
-        password:
-          type: string
-          description: SMTP authentication password
-    ScreenshotUrls:
-      type: object
-      properties:
-        default:
-          type: string
-          format: uri
-          description: Default screenshot URL
-        no_images:
-          type: string
-          format: uri
-          description: Screenshot with image blocking applied
-    StatusDetails:
-      type: object
-      properties:
-        submitted:
-          type: integer
-          format: int64
-          description: Unix timestamp when test was submitted
-        completed:
-          type: integer
-          format: int64
-          description: Unix timestamp when test completed
-        attempts:
-          type: integer
-          description: Number of processing attempts
   responses:
-    PermissionError:
-      description: Account plan does not permit this operation
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            error:
-              name: PermissionError
-              message: Your plan does not include this feature
-    BadRequest:
-      description: Invalid request parameters or JSON
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            error:
-              name: InvalidJSON
-              message: Malformed JSON in request body
-    AccessDenied:
-      description: Authentication failure
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            error:
-              name: AccessDenied
-              message: Invalid API credentials
     InvalidTestID:
       description: Test not found or not accessible
       content:
@@ -683,7 +644,74 @@ components:
             error:
               name: InvalidTestID
               message: Test not found or access denied
+    BadRequest:
+      description: Invalid request parameters or JSON
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: InvalidJSON
+              message: Malformed JSON in request body
+    PermissionError:
+      description: Account plan does not permit this operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: PermissionError
+              message: Your plan does not include this feature
+    AccessDenied:
+      description: Authentication failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: AccessDenied
+              message: Invalid API credentials
   parameters:
+    toDate:
+      name: to
+      in: query
+      required: false
+      schema:
+        type: string
+      description: End of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
+    fromDate:
+      name: from
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Start of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
+    testId:
+      name: testId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique identifier for the test
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results
+    subjectFilter:
+      name: subject
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Exact subject line match (case-insensitive)
     resultsPerPage:
       name: results
       in: query
@@ -694,43 +722,6 @@ components:
         maximum: 200
         default: 50
       description: Number of results to return per page
-    subjectFilter:
-      name: subject
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Exact subject line match (case-insensitive)
-    page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      description: Page number for paginated results
-    testId:
-      name: testId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Unique identifier for the test
-    fromDate:
-      name: from
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Start of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
-    toDate:
-      name: to
-      in: query
-      required: false
-      schema:
-        type: string
-      description: End of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
   securitySchemes:
     basicAuth:
       type: http
