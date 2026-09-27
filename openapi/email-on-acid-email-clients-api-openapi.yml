@@ -80,6 +80,31 @@ paths:
           $ref: '#/components/responses/AccessDenied'
 components:
   schemas:
+    ClientList:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Array of email client IDs
+          example:
+          - outlook16
+          - gmail_chr26_win
+          - iphone6p_9
+    SetDefaultClientsResponse:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Updated list of default client IDs
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Invalid client IDs that were removed
     EmailClient:
       type: object
       properties:
@@ -114,6 +139,11 @@ components:
         default:
           type: boolean
           description: Whether included in default client processing
+    EmailClientsMap:
+      type: object
+      description: Map of client ID to email client details
+      additionalProperties:
+        $ref: '#/components/schemas/EmailClient'
     ErrorResponse:
       type: object
       properties:
@@ -135,47 +165,7 @@ components:
             message:
               type: string
               description: Human-readable error description
-    ClientList:
-      type: object
-      properties:
-        clients:
-          type: array
-          items:
-            type: string
-          description: Array of email client IDs
-          example:
-          - outlook16
-          - gmail_chr26_win
-          - iphone6p_9
-    SetDefaultClientsResponse:
-      type: object
-      properties:
-        clients:
-          type: array
-          items:
-            type: string
-          description: Updated list of default client IDs
-        warnings:
-          type: array
-          items:
-            type: string
-          description: Invalid client IDs that were removed
-    EmailClientsMap:
-      type: object
-      description: Map of client ID to email client details
-      additionalProperties:
-        $ref: '#/components/schemas/EmailClient'
   responses:
-    BadRequest:
-      description: Invalid request parameters or JSON
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            error:
-              name: InvalidJSON
-              message: Malformed JSON in request body
     AccessDenied:
       description: Authentication failure
       content:
@@ -186,6 +176,16 @@ components:
             error:
               name: AccessDenied
               message: Invalid API credentials
+    BadRequest:
+      description: Invalid request parameters or JSON
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: InvalidJSON
+              message: Malformed JSON in request body
   securitySchemes:
     basicAuth:
       type: http
