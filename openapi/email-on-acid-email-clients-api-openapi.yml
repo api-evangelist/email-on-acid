@@ -80,31 +80,11 @@ paths:
           $ref: '#/components/responses/AccessDenied'
 components:
   schemas:
-    ClientList:
+    EmailClientsMap:
       type: object
-      properties:
-        clients:
-          type: array
-          items:
-            type: string
-          description: Array of email client IDs
-          example:
-          - outlook16
-          - gmail_chr26_win
-          - iphone6p_9
-    SetDefaultClientsResponse:
-      type: object
-      properties:
-        clients:
-          type: array
-          items:
-            type: string
-          description: Updated list of default client IDs
-        warnings:
-          type: array
-          items:
-            type: string
-          description: Invalid client IDs that were removed
+      description: Map of client ID to email client details
+      additionalProperties:
+        $ref: '#/components/schemas/EmailClient'
     EmailClient:
       type: object
       properties:
@@ -139,11 +119,19 @@ components:
         default:
           type: boolean
           description: Whether included in default client processing
-    EmailClientsMap:
+    SetDefaultClientsResponse:
       type: object
-      description: Map of client ID to email client details
-      additionalProperties:
-        $ref: '#/components/schemas/EmailClient'
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Updated list of default client IDs
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Invalid client IDs that were removed
     ErrorResponse:
       type: object
       properties:
@@ -165,6 +153,18 @@ components:
             message:
               type: string
               description: Human-readable error description
+    ClientList:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Array of email client IDs
+          example:
+          - outlook16
+          - gmail_chr26_win
+          - iphone6p_9
   responses:
     AccessDenied:
       description: Authentication failure
