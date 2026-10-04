@@ -80,11 +80,6 @@ paths:
           $ref: '#/components/responses/AccessDenied'
 components:
   schemas:
-    EmailClientsMap:
-      type: object
-      description: Map of client ID to email client details
-      additionalProperties:
-        $ref: '#/components/schemas/EmailClient'
     EmailClient:
       type: object
       properties:
@@ -119,19 +114,11 @@ components:
         default:
           type: boolean
           description: Whether included in default client processing
-    SetDefaultClientsResponse:
+    EmailClientsMap:
       type: object
-      properties:
-        clients:
-          type: array
-          items:
-            type: string
-          description: Updated list of default client IDs
-        warnings:
-          type: array
-          items:
-            type: string
-          description: Invalid client IDs that were removed
+      description: Map of client ID to email client details
+      additionalProperties:
+        $ref: '#/components/schemas/EmailClient'
     ErrorResponse:
       type: object
       properties:
@@ -153,6 +140,19 @@ components:
             message:
               type: string
               description: Human-readable error description
+    SetDefaultClientsResponse:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Updated list of default client IDs
+        warnings:
+          type: array
+          items:
+            type: string
+          description: Invalid client IDs that were removed
     ClientList:
       type: object
       properties:

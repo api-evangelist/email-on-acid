@@ -301,69 +301,76 @@ paths:
         '404':
           $ref: '#/components/responses/InvalidTestID'
 components:
+  parameters:
+    testId:
+      name: testId
+      in: path
+      required: true
+      schema:
+        type: string
+      description: Unique identifier for the test
+    subjectFilter:
+      name: subject
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Exact subject line match (case-insensitive)
+    resultsPerPage:
+      name: results
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 200
+        default: 50
+      description: Number of results to return per page
+    fromDate:
+      name: from
+      in: query
+      required: false
+      schema:
+        type: string
+      description: Start of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
+    toDate:
+      name: to
+      in: query
+      required: false
+      schema:
+        type: string
+      description: End of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
+    page:
+      name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number for paginated results
   schemas:
-    ScreenshotUrls:
+    SpamConfig:
       type: object
+      description: Spam test configuration embedded in an email test
       properties:
-        default:
+        test_method:
           type: string
-          format: uri
-          description: Default screenshot URL
-        no_images:
+          enum:
+          - eoa
+          - smtp
+          - seed
+          default: eoa
+          description: Spam testing method
+        from_address:
           type: string
-          format: uri
-          description: Screenshot with image blocking applied
-    SuccessResponse:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
-    ErrorResponse:
-      type: object
-      properties:
-        error:
-          type: object
-          properties:
-            name:
-              type: string
-              description: Error type identifier
-              enum:
-              - AccessDenied
-              - RateLimited
-              - InvalidJSON
-              - InvalidParameter
-              - InvalidTestID
-              - InvalidClient
-              - PermissionError
-              - TestLimitReached
-            message:
-              type: string
-              description: Human-readable error description
-    ClientList:
-      type: object
-      properties:
-        clients:
-          type: array
-          items:
-            type: string
-          description: Array of email client IDs
-          example:
-          - outlook16
-          - gmail_chr26_win
-          - iphone6p_9
-    ReprocessResult:
-      type: object
-      properties:
-        success:
-          type: boolean
-          description: Whether reprocess was initiated successfully
-        remaining_reprocesses:
-          type: integer
-          description: Remaining reprocess attempts for this client
-        regional:
-          type: boolean
-          description: Whether regional processing was used
+          format: email
+          description: Sender email address for spam testing
+        key:
+          type: string
+          description: Pre-reserved seedlist key (optional for seed method)
+        smtp_info:
+          $ref: '#/components/schemas/SmtpInfo'
     SmtpInfo:
       type: object
       description: SMTP configuration for smtp test method
@@ -391,6 +398,59 @@ components:
         password:
           type: string
           description: SMTP authentication password
+    TestSummary:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique test identifier
+        date:
+          type: integer
+          format: int64
+          description: Unix timestamp of test creation
+        type:
+          type: string
+          enum:
+          - email-test
+          - spam-test
+          description: Test type classification
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: Custom X-headers associated with the test
+    SuccessResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+    StatusDetails:
+      type: object
+      properties:
+        submitted:
+          type: integer
+          format: int64
+          description: Unix timestamp when test was submitted
+        completed:
+          type: integer
+          format: int64
+          description: Unix timestamp when test completed
+        attempts:
+          type: integer
+          description: Number of processing attempts
+    ClientList:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            type: string
+          description: Array of email client IDs
+          example:
+          - outlook16
+          - gmail_chr26_win
+          - iphone6p_9
     CreateEmailTestResponse:
       type: object
       properties:
@@ -415,94 +475,62 @@ components:
                 type: string
                 format: email
               description: Seed list addresses to send email to
+    ScreenshotUrls:
+      type: object
+      properties:
+        default:
+          type: string
+          format: uri
+          description: Default screenshot URL
+        no_images:
+          type: string
+          format: uri
+          description: Screenshot with image blocking applied
+    ReprocessResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+          description: Whether reprocess was initiated successfully
+        remaining_reprocesses:
+          type: integer
+          description: Remaining reprocess attempts for this client
+        regional:
+          type: boolean
+          description: Whether regional processing was used
+    EmailContent:
+      type: object
+      properties:
+        content:
+          type: string
+          description: Original HTML content of the email test
     EmailTestResultsMap:
       type: object
       description: Map of client ID to rendering result
       additionalProperties:
         $ref: '#/components/schemas/EmailClientResult'
-    EmailClientResult:
+    SpamResult:
       type: object
       properties:
-        id:
-          type: string
-          description: Client identifier
-        display_name:
-          type: string
-          description: Human-readable client display name
         client:
           type: string
-          description: Email client name
-        os:
-          type: string
-          description: Operating system
-        category:
-          type: string
-          enum:
-          - Application
-          - Mobile
-          - Web
-        screenshots:
-          $ref: '#/components/schemas/ScreenshotUrls'
-        thumbnail:
-          type: string
-          format: uri
-          description: Thumbnail screenshot URL
-        full_thumbnail:
-          type: string
-          format: uri
-          description: Full-size thumbnail screenshot URL
-        status:
-          type: string
-          enum:
-          - Complete
-          - Processing
-          - Bounced
-          - Pending
-          description: Current rendering status
-        status_details:
-          $ref: '#/components/schemas/StatusDetails'
-    SpamConfig:
-      type: object
-      description: Spam test configuration embedded in an email test
-      properties:
-        test_method:
-          type: string
-          enum:
-          - eoa
-          - smtp
-          - seed
-          default: eoa
-          description: Spam testing method
-        from_address:
-          type: string
-          format: email
-          description: Sender email address for spam testing
-        key:
-          type: string
-          description: Pre-reserved seedlist key (optional for seed method)
-        smtp_info:
-          $ref: '#/components/schemas/SmtpInfo'
-    TestSummary:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Unique test identifier
-        date:
-          type: integer
-          format: int64
-          description: Unix timestamp of test creation
+          description: Spam filter client name
         type:
           type: string
           enum:
-          - email-test
-          - spam-test
-          description: Test type classification
-        headers:
-          type: object
-          additionalProperties:
-            type: string
-          description: Custom X-headers associated with the test
+          - b2c
+          - b2b
+          description: Spam client type (business-to-consumer or business-to-business)
+        spam:
+          type:
+          - integer
+          - 'null'
+          description: 'Spam verdict: 1 = marked as spam, 0 = neutral/no decision, -1 = not spam, null/empty = pending
+
+            '
+        details:
+          type: string
+          description: Additional spam filter analysis details
     CreateEmailTestRequest:
       type: object
       required:
@@ -561,26 +589,27 @@ components:
           description: Block images in supported clients
         spam:
           $ref: '#/components/schemas/SpamConfig'
-    EmailContent:
+    ErrorResponse:
       type: object
       properties:
-        content:
-          type: string
-          description: Original HTML content of the email test
-    StatusDetails:
-      type: object
-      properties:
-        submitted:
-          type: integer
-          format: int64
-          description: Unix timestamp when test was submitted
-        completed:
-          type: integer
-          format: int64
-          description: Unix timestamp when test completed
-        attempts:
-          type: integer
-          description: Number of processing attempts
+        error:
+          type: object
+          properties:
+            name:
+              type: string
+              description: Error type identifier
+              enum:
+              - AccessDenied
+              - RateLimited
+              - InvalidJSON
+              - InvalidParameter
+              - InvalidTestID
+              - InvalidClient
+              - PermissionError
+              - TestLimitReached
+            message:
+              type: string
+              description: Human-readable error description
     ReprocessResultsMap:
       type: object
       description: Map of client ID to reprocess result
@@ -611,76 +640,47 @@ components:
           items:
             type: string
           description: Client IDs that encountered errors
-    SpamResult:
+    EmailClientResult:
       type: object
       properties:
+        id:
+          type: string
+          description: Client identifier
+        display_name:
+          type: string
+          description: Human-readable client display name
         client:
           type: string
-          description: Spam filter client name
-        type:
+          description: Email client name
+        os:
+          type: string
+          description: Operating system
+        category:
           type: string
           enum:
-          - b2c
-          - b2b
-          description: Spam client type (business-to-consumer or business-to-business)
-        spam:
-          type:
-          - integer
-          - 'null'
-          description: 'Spam verdict: 1 = marked as spam, 0 = neutral/no decision, -1 = not spam, null/empty = pending
-
-            '
-        details:
+          - Application
+          - Mobile
+          - Web
+        screenshots:
+          $ref: '#/components/schemas/ScreenshotUrls'
+        thumbnail:
           type: string
-          description: Additional spam filter analysis details
-  parameters:
-    testId:
-      name: testId
-      in: path
-      required: true
-      schema:
-        type: string
-      description: Unique identifier for the test
-    subjectFilter:
-      name: subject
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Exact subject line match (case-insensitive)
-    resultsPerPage:
-      name: results
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 200
-        default: 50
-      description: Number of results to return per page
-    fromDate:
-      name: from
-      in: query
-      required: false
-      schema:
-        type: string
-      description: Start of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
-    toDate:
-      name: to
-      in: query
-      required: false
-      schema:
-        type: string
-      description: End of date range (ISO date string, Unix timestamp, or relative term like "yesterday")
-    page:
-      name: page
-      in: query
-      required: false
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-      description: Page number for paginated results
+          format: uri
+          description: Thumbnail screenshot URL
+        full_thumbnail:
+          type: string
+          format: uri
+          description: Full-size thumbnail screenshot URL
+        status:
+          type: string
+          enum:
+          - Complete
+          - Processing
+          - Bounced
+          - Pending
+          description: Current rendering status
+        status_details:
+          $ref: '#/components/schemas/StatusDetails'
   responses:
     PermissionError:
       description: Account plan does not permit this operation
@@ -692,26 +692,6 @@ components:
             error:
               name: PermissionError
               message: Your plan does not include this feature
-    BadRequest:
-      description: Invalid request parameters or JSON
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            error:
-              name: InvalidJSON
-              message: Malformed JSON in request body
-    AccessDenied:
-      description: Authentication failure
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            error:
-              name: AccessDenied
-              message: Invalid API credentials
     InvalidTestID:
       description: Test not found or not accessible
       content:
@@ -722,6 +702,26 @@ components:
             error:
               name: InvalidTestID
               message: Test not found or access denied
+    AccessDenied:
+      description: Authentication failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: AccessDenied
+              message: Invalid API credentials
+    BadRequest:
+      description: Invalid request parameters or JSON
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: InvalidJSON
+              message: Malformed JSON in request body
   securitySchemes:
     basicAuth:
       type: http

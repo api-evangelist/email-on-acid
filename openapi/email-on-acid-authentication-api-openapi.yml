@@ -35,17 +35,6 @@ paths:
         '401':
           $ref: '#/components/responses/AccessDenied'
 components:
-  responses:
-    AccessDenied:
-      description: Authentication failure
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
-          example:
-            error:
-              name: AccessDenied
-              message: Invalid API credentials
   schemas:
     ErrorResponse:
       type: object
@@ -74,6 +63,17 @@ components:
         success:
           type: boolean
           example: true
+  responses:
+    AccessDenied:
+      description: Authentication failure
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            error:
+              name: AccessDenied
+              message: Invalid API credentials
   securitySchemes:
     basicAuth:
       type: http
