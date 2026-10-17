@@ -36,6 +36,12 @@ paths:
           $ref: '#/components/responses/AccessDenied'
 components:
   schemas:
+    AuthSuccess:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
     ErrorResponse:
       type: object
       properties:
@@ -57,12 +63,6 @@ components:
             message:
               type: string
               description: Human-readable error description
-    AuthSuccess:
-      type: object
-      properties:
-        success:
-          type: boolean
-          example: true
   responses:
     AccessDenied:
       description: Authentication failure
