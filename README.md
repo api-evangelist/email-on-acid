@@ -64,45 +64,160 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Email on Acid (now branded as Mailgun Inspect) is an email testing and pre-deployment quality assurance platform with a REST API for rendering email previews across 100+ email clients and devices, checking accessibility compliance (WCAG 2.2), validating HTML/CSS compatibility, running spam filter analysis, and automating pre-send email testing workflows.
+Email on Acid (now branded as Mailgun Inspect) is an email testing and pre-deployment quality assurance platform with a REST API for rendering email previews across 100+ email clients and devices, checking accessibility compliance (WCAG 2.2), validating HTML/CSS compatibility, running spam filter analysis, and automating pre-send email testing workflows via HTTP Basic Authentication.
 
-## Links
+**Areas:** Email Testing · Email Previews · Email Client · Spam Testing · Accessibility · HTML Validation · Email Quality Assurance · Pre-Deployment Testing
 
-- **Website:** https://www.emailonacid.com
-- **API Documentation:** https://api.emailonacid.com/docs/latest
-- **Pricing:** https://www.emailonacid.com/pricing/
-- **Blog:** https://www.emailonacid.com/blog/
-- **Status Page:** https://status.emailonacid.com/
-- **GitHub:** https://github.com/emailonacid
-- **LinkedIn:** https://www.linkedin.com/company/email-on-acid
-- **X (Twitter):** https://twitter.com/EmailOnAcid
+## Email on Acid on APIs.io
 
-## APIs
+Everything profiled for Email on Acid is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/email-on-acid/](https://apis.io/providers/email-on-acid/)** — or go straight to one of the APIs or properties below.
 
-### Email on Acid API v5
+### APIs (4)
 
-REST API for automating email testing. Base URL: `https://api.emailonacid.com/v5`
+- [Email on Acid Authentication API](https://apis.io/apis/email-on-acid/email-on-acid-authentication-api/) — Verify API credentials
+- [Email on Acid Email Clients API](https://apis.io/apis/email-on-acid/email-on-acid-email-clients-api/) — Manage email client lists and defaults for testing
+- [Email on Acid Email Testing API](https://apis.io/apis/email-on-acid/email-on-acid-email-testing-api/) — Create and manage email rendering tests
+- [Email on Acid Spam Testing API](https://apis.io/apis/email-on-acid/email-on-acid-spam-testing-api/) — Standalone spam filter analysis and seed list management
 
-**Authentication:** HTTP Basic Authentication using `api_key:account_password` encoded in base-64. Sandbox mode available using `sandbox:sandbox` credentials.
+### Published properties
 
-**Key Endpoint Categories:**
-- Email Testing — create, retrieve, manage, and delete email tests
-- Email Client Lists — manage available and default email clients for testing
-- Spam Testing — create spam tests, retrieve spam results, manage seed lists
-- Test Searches — search and retrieve historical test results
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-**Data Retention:** Test results stored for 90 days after processing.
+#### Agentic access (1)
 
-## Plans
+Which operations an agent can call, which act, and which need a human in the loop.
 
-| Plan | Monthly Price | Previews/Month | API Access |
-|------|--------------|----------------|------------|
-| Basic | $99 | 1,000 | Yes |
-| Premium | $199 | 2,000 | Yes |
-| Contract | Custom | Custom | Yes |
+- [Email On Acid Agentic Access](https://apis.io/agentic-access/email-on-acid/email-on-acid-agentic-access/)
 
-Overage rate: $0.15 per preview. Annual billing saves 15%.
+#### JSON Schema (3)
 
-## Maintainer
+The data models the API reads and writes.
 
-**Kin Lane** — kin@apievangelist.com
+- [CreateEmailTestRequest](https://apis.io/schemas/email-on-acid/email-test-request/)
+- [EmailTestResult](https://apis.io/schemas/email-on-acid/email-test-response/)
+- [CreateSpamTestRequest](https://apis.io/schemas/email-on-acid/spam-test-request/)
+
+#### JSON-LD (1)
+
+Linked-data contexts for the provider's vocabulary.
+
+- [Email On Acid Context](https://apis.io/jsonld/email-on-acid/email-on-acid-context/)
+
+#### Vocabulary (1)
+
+The provider's domain terms, defined.
+
+- [Email on Acid Vocabulary](https://apis.io/vocabularies/email-on-acid/email-on-acid-vocabulary/)
+
+#### Examples (4)
+
+Example requests and responses.
+
+- [Create Email Test](https://apis.io/examples/email-on-acid/create-email-test/)
+- [Create Spam Test](https://apis.io/examples/email-on-acid/create-spam-test/)
+- [Email Test Response](https://apis.io/examples/email-on-acid/email-test-response/)
+- [Email Test Results](https://apis.io/examples/email-on-acid/email-test-results/)
+
+#### Collections (4)
+
+Postman and Open Collection request collections.
+
+- [Email on Acid Authentication API](https://apis.io/collections/email-on-acid/open-email-on-acid-authentication-api/)
+- [Email on Acid Authentication Email Clients API](https://apis.io/collections/email-on-acid/open-email-on-acid-email-clients-api/)
+- [Email on Acid Authentication Email Testing API](https://apis.io/collections/email-on-acid/open-email-on-acid-email-testing-api/)
+- [Email on Acid Authentication Spam Testing API](https://apis.io/collections/email-on-acid/open-email-on-acid-spam-testing-api/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [Email on Acid — jsonschema rules](https://apis.io/rules/email-on-acid/email-on-acid-jsonschema-spectral-rules/)
+
+#### Security (3)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Email On Acid Authentication](https://apis.io/security/email-on-acid/email-on-acid-authentication/)
+- [Email On Acid Domain Security](https://apis.io/security/email-on-acid/email-on-acid-domain-security/)
+- [Email On Acid Trust Center](https://apis.io/security/email-on-acid/email-on-acid-trust-center/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Email On Acid Plans Pricing](https://apis.io/plans/email-on-acid/email-on-acid-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Email On Acid Rate Limits](https://apis.io/rate-limits/email-on-acid/email-on-acid-rate-limits/)
+
+#### FinOps (1)
+
+What the API costs to run, by operation.
+
+- [Email On Acid Finops](https://apis.io/finops/email-on-acid/email-on-acid-finops/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.emailonacid.com)
+- [Documentation](https://api.emailonacid.com/docs/latest)
+- [Pricing](https://www.emailonacid.com/pricing/)
+- [Blog](https://www.emailonacid.com/blog/)
+- [Status](https://status.emailonacid.com/)
+
+## API Evangelist rating
+
+**Kin Score 36.7** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 59.5 |
+| Contract governance | 9.8 |
+| Operational transparency | 28.9 |
+| Developer ergonomics | 23.8 |
+| Access clarity | 26.3 |
+
+**Agent readiness 20.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 21.6** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/email-on-acid/](https://apis.io/providers/email-on-acid/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Email on Acid: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/email-on-acid/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
